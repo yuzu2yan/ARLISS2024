@@ -1,10 +1,10 @@
 """""""""""""""""""""""""""""""""""
-    TANEGASHIMA ROCKET CONTEST 2024
-    ASTRUM RUNBACK MAIN PROGRAM
+    ARLISS 2024
+    ASTRUM OPEN CLASS MAIN PROGRAM
     
     Author : Yuzu
     Language : Python Ver.3.9.2
-    Last Update : 03/07/2024
+    Last Update : 06/01/2024
 """""""""""""""""""""""""""""""""""
 
 
@@ -14,8 +14,7 @@ import time
 import datetime
 import csv
 import yaml
-import cv2
-import ArducamDepthCamera as ac
+import cv2c
 from pycoral.adapters.common import input_size
 from pycoral.adapters.detect import get_objects
 from pycoral.utils.dataset import read_label_file
@@ -258,4 +257,3 @@ while not reach_goal:
 cap.release()
 cam.stop()
 cam.close()
-cv2.destroyAllWindows()
