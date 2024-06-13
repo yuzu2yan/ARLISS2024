@@ -25,10 +25,11 @@ sensor = adafruit_bno055.BNO055_I2C(i2c)
     
 if __name__ == '__main__':
     date = datetime.datetime.now()
-    filename = dafe.strftime('%Y%m%d %H:%M:%S') + '_vibration-test.csv'
+    filename = date.strftime('%Y%m%d %H:%M:%S') + '_vibration-test.csv'
     
     while True:
-        accecl = np.sqrt(sensor.linear_acceleration[0]**2 + sensor.linear_acceleration[1]**2 + sensor.linear_acceleration[2]**2)    
+        accecl = np.sqrt(sensor.linear_acceleration[0]**2 + sensor.linear_acceleration[1]**2 + sensor.linear_acceleration[2]**2)   
+        print('accel : ', accecl)
         with open(filename, 'a') as f:
             writer = csv.writer(f)
             writer.writerow([date.strftime('%H:%M:%S'), accecl])
