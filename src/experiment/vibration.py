@@ -9,6 +9,12 @@ import matplotlib.pyplot as plt
 i2c = board.I2C()  # uses board.SCL and board.SDA
 sensor = adafruit_bno055.BNO055_I2C(i2c)
 
+def get_linear_acceleration(sensor):
+    try:
+        return sensor.linear_acceleration
+    except Exception as e:
+        return None
+
 if __name__ == '__main__':
     date = datetime.datetime.now()
     start = date.strftime('%Y%m%d %H:%M:%S')
@@ -19,7 +25,7 @@ if __name__ == '__main__':
     
     while True:
         try:
-            linear_acceleration = sensor.linear_acceleration
+            linear_acceleration = get_linear_acceleration(sensor)
             if linear_acceleration is not None:
                 accel = np.sqrt(linear_acceleration[0]**2 + linear_acceleration[1]**2 + linear_acceleration[2]**2) / 9.81
                 print('accel : ', accel)
@@ -37,6 +43,9 @@ if __name__ == '__main__':
                 continue
         except KeyboardInterrupt:
             break
+        except Exception as e:
+            time.sleep(0.1)
+
 
     plt.figure(figsize=(10, 6))
     plt.plot(time_data, accel_data, label='Acceleration (G)')
