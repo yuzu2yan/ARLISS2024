@@ -14,7 +14,7 @@ import time
 import datetime
 import csv
 import yaml
-import cv2c
+import cv2
 from pycoral.adapters.common import input_size
 from pycoral.adapters.detect import get_objects
 from pycoral.utils.dataset import read_label_file
