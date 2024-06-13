@@ -19,18 +19,22 @@ if __name__ == '__main__':
     
     while True:
         try:
-            accel = np.sqrt(sensor.linear_acceleration[0]**2 + sensor.linear_acceleration[1]**2 + sensor.linear_acceleration[2]**2) / 9.81
-            print('accel : ', accel)
-            now = datetime.datetime.now()
-            passed_time = now - date
-            accel_data.append(accel)
-            time_data.append(passed_time.total_seconds())
-            
-            with open(filename, 'a') as f:
-                writer = csv.writer(f)
-                writer.writerow([passed_time.total_seconds(), date.strftime('%H:%M:%S'), accel])
-            
-            time.sleep(0.01)
+            linear_acceleration = sensor.linear_acceleration
+            if linear_acceleration is not None:
+                accel = np.sqrt(linear_acceleration[0]**2 + linear_acceleration[1]**2 + linear_acceleration[2]**2) / 9.81
+                print('accel : ', accel)
+                now = datetime.datetime.now()
+                passed_time = now - date
+                accel_data.append(accel)
+                time_data.append(passed_time.total_seconds())
+                
+                with open(filename, 'a') as f:
+                    writer = csv.writer(f)
+                    writer.writerow([passed_time.total_seconds(), date.strftime('%H:%M:%S'), accel])
+                
+                time.sleep(0.01)
+            else:
+                continue
         except KeyboardInterrupt:
             break
 
@@ -41,6 +45,5 @@ if __name__ == '__main__':
     plt.title('Vibration test')
     plt.legend()
     plt.grid(True)
-    
     plt.savefig(start + '_vibration-test.png')
     plt.show()
