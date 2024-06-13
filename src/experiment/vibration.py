@@ -19,7 +19,7 @@ if __name__ == '__main__':
     
     while True:
         try:
-            accel = np.sqrt(sensor.linear_acceleration[0]**2 + sensor.linear_acceleration[1]**2 + sensor.linear_acceleration[2]**2)
+            accel = np.sqrt(sensor.linear_acceleration[0]**2 + sensor.linear_acceleration[1]**2 + sensor.linear_acceleration[2]**2) / 9.81
             print('accel : ', accel)
             now = datetime.datetime.now()
             passed_time = now - date
@@ -35,9 +35,9 @@ if __name__ == '__main__':
             break
 
     plt.figure(figsize=(10, 6))
-    plt.plot(time_data, accel_data, label='Acceleration')
+    plt.plot(time_data, accel_data, label='Acceleration (G)')
     plt.xlabel('Time (s)')
-    plt.ylabel('Acceleration (m/s^2)')
+    plt.ylabel('Acceleration (G)')
     plt.title('Vibration test')
     plt.legend()
     plt.grid(True)
