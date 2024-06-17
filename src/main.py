@@ -4,7 +4,7 @@
     
     Author : Yuzu
     Language : Python Ver.3.9.2
-    Last Update : 06/01/2024
+    Last Update : 06/18/2024
 """""""""""""""""""""""""""""""""""
 
 
@@ -51,7 +51,7 @@ phase 1 : Floating
 """
 Floating Phase
 """
-phase = 2 # TODO change
+phase = 1
 if phase == 1:
     print("phase : ", phase)
     floating_log = logger.FloatingLogger(directory_path)
@@ -154,12 +154,6 @@ interpreter.allocate_tensors()
 labels = read_label_file('../model/red_cone.txt')
 inference_size = input_size(interpreter)
 
-cam = ac.ArducamCamera()
-if cam.open(ac.TOFConnect.CSI,0) != 0 :
-    print("initialization failed")
-if cam.start(ac.TOFOutput.DEPTH) != 0 :
-    print("Failed to start camera")
-#cam.setControl(ac.TOFControl.RANG, MAX_DISTANCE=4)
 # cv2.namedWindow("preview", cv2.WINDOW_AUTOSIZE)
     
 
@@ -212,7 +206,7 @@ while not reach_goal:
     while phase == 3 and cap.isOpened():
         drive.forward()
         try:
-            percent, distance, cone_loc, ditected_img_name, tof_img_name = cone_detection.detect_cone(cap, cam, inference_size, interpreter, labels, directory_path)
+            percent, distance, cone_loc, ditected_img_name, tof_img_name = cone_detection.detect_cone(cap, inference_size, interpreter, labels, directory_path)
             img_proc_log.img_proc_logger(cone_loc, distance, percent, ditected_img_name, tof_img_name)
             print("percent:", percent, "distance:", distance, "location:", cone_loc)
         except Exception as e:
@@ -255,5 +249,3 @@ while not reach_goal:
         
 
 cap.release()
-cam.stop()
-cam.close()

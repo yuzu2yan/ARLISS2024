@@ -1,8 +1,6 @@
 import cv2
 import datetime
-import ArducamDepthCamera as ac
 import numpy as np
-from tof_distance import cal_distance_to_cone
 from pycoral.adapters.common import input_size
 from pycoral.adapters.detect import get_objects
 from pycoral.utils.dataset import read_label_file
@@ -33,10 +31,6 @@ def detect_cone(cap, cam, inference_size, interpreter, labels, folder_path="../d
     # cv2.imshow('frame', detected_img)
     now = datetime.datetime.now()
     cv2.imwrite(folder_path + now.strftime('%Y%m%d %H:%M:%S') + 'detected_img.jpg', detected_img) # 300x300
-    if len(cones) != 0 and percent > 15:
-        distance = cal_distance_to_cone(cam, central_x, central_y, detected_img.shape, folder_path)
-    else:
-        distance = np.nan
     return percent, distance, loc
 
     
@@ -70,12 +64,6 @@ if __name__ == '__main__':
     labels = read_label_file('../model/red_cone.txt')
     inference_size = input_size(interpreter)
     
-    cam = ac.ArducamCamera()
-    if cam.open(ac.TOFConnect.CSI,0) != 0 :
-        print("initialization failed")
-    if cam.start(ac.TOFOutput.DEPTH) != 0 :
-        print("Failed to start camera")
-    #cam.setControl(ac.TOFControl.RANG, MAX_DISTANCE=4)
     # cv2.namedWindow("preview", cv2.WINDOW_AUTOSIZE)
     drive = motor.Motor()
     while cap.isOpened():
@@ -105,6 +93,4 @@ if __name__ == '__main__':
             drive.forward()
 
     cap.release()
-    cam.stop()
-    cam.close()
     cv2.destroyAllWindows()
