@@ -24,7 +24,7 @@ while True:
 
     if frame is not None:
         # フレームをRGBに変換（4チャンネルから3チャンネルへ）
-        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGRA2BGR)
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGRA2RGB)
 
         # YOLOv8推論をフレームに適用
         try:
