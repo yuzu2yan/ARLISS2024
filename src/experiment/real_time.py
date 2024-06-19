@@ -6,7 +6,6 @@ from ultralytics import YOLO
 # YOLOv8モデルをロード
 try:
     model = YOLO('./best.pt')
-    print("Model loaded successfully.")
 except Exception as e:
     print(f"Error loading model: {e}")
     exit()
@@ -29,20 +28,35 @@ while True:
         # YOLOv8推論をフレームに適用
         try:
             results = model(frame_rgb)
-            print("Inference successful.")
         except Exception as e:
             print(f"Error during inference: {e}")
             break
 
         # 結果をフレームに可視化
         annotated_frame = results[0].plot()
+        # results[0]からResultsオブジェクトを取り出す
+        result_object = results[0]
 
-        # アノテートされたフレームを表示
-        cv2.imshow("YOLOv8 Inference", annotated_frame)
+        # バウンディングボックスの座標を取得
+        bounding_boxes = result_object.boxes.xyxy
 
-        # 'q' キーが押されたらループを抜ける
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            break
+        # クラスIDを取得
+        class_ids = result_object.boxes.cls
+
+        # クラス名の辞書を取得
+        class_names_dict = result_object.names
+
+        # バウンディングボックスとクラス名を組み合わせて表示
+        for box, class_id in zip(bounding_boxes, class_ids):
+            class_name = class_names_dict[int(class_id)]
+            print(f"Box coordinates: {box}, Object: {class_name}")
+        
+        # # アノテートされたフレームを表示
+        # cv2.imshow("YOLOv8 Inference", annotated_frame)
+
+        # # 'q' キーが押されたらループを抜ける
+        # if cv2.waitKey(1) & 0xFF == ord("q"):
+        #     break
     else:
         print("Error: Frame not read successfully.")
         break
