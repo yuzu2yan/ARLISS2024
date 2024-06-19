@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 from picamera2 import Picamera2, Preview
-
 from ultralytics import YOLO
 
 # YOLOv8モデルをロード
@@ -22,11 +21,14 @@ picam2.start()
 while True:
     # フレームを取得
     frame = picam2.capture_array()
-    
+
     if frame is not None:
+        # フレームをRGBに変換（4チャンネルから3チャンネルへ）
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGRA2BGR)
+
         # YOLOv8推論をフレームに適用
         try:
-            results = model(frame)
+            results = model(frame_rgb)
             print("Inference successful.")
         except Exception as e:
             print(f"Error during inference: {e}")
