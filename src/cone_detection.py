@@ -1,25 +1,37 @@
 import cv2
 import datetime
 import numpy as np
-from pycoral.adapters.common import input_size
-from pycoral.adapters.detect import get_objects
-from pycoral.utils.dataset import read_label_file
-from pycoral.utils.edgetpu import make_interpreter
-from pycoral.utils.edgetpu import run_inference
+from picamera2 import Picamera2
+from ultralytics import YOLO
 import motor
 import time
 
     
-def detect_cone(cap, cam, inference_size, interpreter, labels, folder_path="../data/test/"):
-    ret, frame = cap.read()
-    if not ret:
-        print('Cannot use camera1')
-        return 0, 0, (0, 0), 0
-    frame = cv2.resize(frame, inference_size)
-    run_inference(interpreter, frame.tobytes())
-    cones = get_objects(interpreter, 0.1)[:1] # set threshold
-    detected_img, central_x, central_y, percent = append_objs_to_img(frame, inference_size, cones, labels)
-    shape = detected_img.shape
+def detect_cone(picam2, model):
+    frame = picam2.capture_array()
+    if frame is not None:
+        # Convert the frame to RGB 
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGRA2RGB)
+        results = model(frame_rgb)
+        # Annotate the frame with the results
+        annotated_frame = results[0].plot()
+        result_object = results[0]
+        # Get the bounding box positions
+        bounding_boxes = result_object.boxes.xyxy
+        central_x = (bounding_boxes[0][0] + bounding_boxes[0][2]) / 2
+        percent = int(100 * result_object.scores[0])
+        red_cone_percent = (bounding_boxes[0][2] - bounding_boxes[0][0]) * (bounding_boxes[0][3] - bounding_boxes[0][1]) / (frame.shape[0] * frame.shape[1]) * 100
+        # Get the class IDs
+        class_ids = result_object.boxes.cls
+        # Get the class names
+        class_names_dict = result_object.names
+        for box, class_id in zip(bounding_boxes, class_ids):
+            class_name = class_names_dict[int(class_id)]
+            print(f"Box coordinates: {box}, Object: {class_name}")
+    else:
+        print("Error: Frame not read successfully.")
+        return 0, 0, 0, "not found"
+    shape = frame.shape
     if central_x < shape[1] / 3:
         loc = "left"
     elif central_x > shape[1] * 2 / 3:
@@ -27,61 +39,32 @@ def detect_cone(cap, cam, inference_size, interpreter, labels, folder_path="../d
     elif percent < 15:
         loc = "not found"
     else:
-        loc = "center"
-    # cv2.imshow('frame', detected_img)
+        loc = "not found"
     now = datetime.datetime.now()
-    cv2.imwrite(folder_path + now.strftime('%Y%m%d %H:%M:%S') + 'detected_img.jpg', detected_img) # 300x300
-    return percent, distance, loc
+    cv2.imwrite(f"img_{now.strftime('%Y%m%d%H%M%S')}.jpg", annotated_frame)
+    return percent, red_cone_percent, central_x, loc
 
-    
-def append_objs_to_img(img, inference_size, cones, labels):
-    height, width, channels = img.shape
-    scale_x, scale_y = width / inference_size[0], height / inference_size[1]
-        
-    # find the most reliable cone
-    if len(cones) != 0:
-        highest_confidence_cone = max(cones, key=lambda x: x.score)
-        bbox = highest_confidence_cone.bbox.scale(scale_x, scale_y)
-        x0, y0 = int(bbox.xmin), int(bbox.ymin)
-        x1, y1 = int(bbox.xmax), int(bbox.ymax)
-        central_x = (x0 + x1) / 2
-        central_y = (y0 + y1) / 2
-        percent = int(100 * highest_confidence_cone.score)
-        label = '{}% {}'.format(percent, labels.get(highest_confidence_cone.id, highest_confidence_cone.id))
-
-        img = cv2.rectangle(img, (x0, y0), (x1, y1), (0, 255, 0), 2)
-        img = cv2.putText(img, label, (x0, y0+30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 0, 0), 2)
-        return img, central_x, central_y, percent
-    else:
-        return img, np.nan, np.nan, 0
 
 if __name__ == '__main__':
-    cap = cv2.VideoCapture(1) # /dev/video1
-    if cap.isOpened() == False:
-        print("Error opening video stream or file")
-    interpreter = make_interpreter('../model/red_cone.tflite')
-    interpreter.allocate_tensors()
-    labels = read_label_file('../model/red_cone.txt')
-    inference_size = input_size(interpreter)
+    model = YOLO('./best.pt')
+    # Initialize Picamera2
+    picam2 = Picamera2()
+    config = picam2.create_preview_configuration()
+    picam2.configure(config)
+    picam2.start()  
     
-    # cv2.namedWindow("preview", cv2.WINDOW_AUTOSIZE)
     drive = motor.Motor()
-    while cap.isOpened():
-        percent, distance, loc = detect_cone(cap, cam, inference_size, interpreter, labels, folder_path="./")
-        print("percent:", percent, "distance:", distance, "location:", loc)
-        # if cv2.waitKey(1) & 0xFF == ord('q'):
-        #     break
+    while True:
+        percent, red_cone_percent, central_x, loc = detect_cone(picam2, model)
+        print("percent:", percent, "location:", loc)
         # Goal judgment
-        if distance < 0.30:
+        if red_cone_percent < 10:
             print("Reach the goal")
-            # phase = 4
-            # reach_goal = True
-            # img_proc_log.end_of_img_proc_phase()
             drive.forward()
             time.sleep(2.0)
             drive.stop()
             break
-        elif distance < 4:
+        elif red_cone_percent < 1:
             drive.max_dutycycle = 65
         if loc == "right":
             drive.turn_right()
@@ -92,5 +75,5 @@ if __name__ == '__main__':
         elif loc == "not found":
             drive.forward()
 
-    cap.release()
-    cv2.destroyAllWindows()
+picam2.stop()   
+# cv2.destroyAllWindows()
