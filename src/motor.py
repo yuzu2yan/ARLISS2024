@@ -19,24 +19,14 @@ class Motor(object):
             # Motor.pi.set_PWM_range(pin, 100)
     
     def forward(self):
-        # Motor.pi.set_PWM_dutycycle(FRONT[0], 90) # Left
-        # Motor.pi.set_PWM_dutycycle(FRONT[1], 100) # RightS
-        # [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
-        Motor.pi.write(FRONT[0], 1)
-        Motor.pi.write(FRONT[1], 1)
-        Motor.pi.write(REAR[0], 0)
-        Motor.pi.write(REAR[1], 0)
+        Motor.pi.set_PWM_dutycycle(FRONT[0], 90) # Left
+        Motor.pi.set_PWM_dutycycle(FRONT[1], 100) # Right
+        [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
         print("forward")
         
     def back(self):
-        
-        # [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in FRONT]
-        # [Motor.pi.set_PWM_dutycycle(pin, self.max_dutyrate) for pin in REAR]
-        Motor.pi.write(FRONT[0], 0)
-        Motor.pi.write(FRONT[1], 0)
-        Motor.pi.write(REAR[0], 1)
-        Motor.pi.write(REAR[1], 1)
-        
+        [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in FRONT]
+        [Motor.pi.set_PWM_dutycycle(pin, self.max_dutyrate) for pin in REAR]        
         print("back")
     
     def stop(self):
