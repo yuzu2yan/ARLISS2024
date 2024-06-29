@@ -1,7 +1,7 @@
 #include <Wire.h>
 
-float latitude;
-float longitude;
+string latitude;
+string longitude;
 
 void setup() {
   Wire.begin(0x08);
@@ -14,6 +14,7 @@ void loop() {
   // Serial.println(latitude, 6);
   // Serial.print("Longitude: ");
   // Serial.println(longitude, 6);
+  void requestEvent();
   // delay(1000);  // wait for a second
 }
 
@@ -23,7 +24,7 @@ void receiveEvent() {
   Wire.requestFrom(0x00, 16); // latitude
   while (Wire.available()) {
     char c = Wire.read();
-    latitude[i++] = (float)c;
+    latitude[i++] = c;
     Serial.print(c);
   }
   Serial.println();
@@ -32,7 +33,7 @@ void receiveEvent() {
   Wire.requestFrom(0x01, 16); // longitude
   while (Wire.available()) {
     char c = Wire.read();
-    longitude[i++] = (float)c;
+    longitude[i++] = c;
     Serial.print(c);
   }
   Serial.println();
