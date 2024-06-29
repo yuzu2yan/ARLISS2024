@@ -15,18 +15,28 @@ class Motor(object):
         self.max_dutyrate = 1.0
         for pin in PINS:
             Motor.pi.set_mode(pin, pigpio.OUTPUT)
-            Motor.pi.set_PWM_frequency(pin, 10000)
-            Motor.pi.set_PWM_range(pin, 100)
+            # Motor.pi.set_PWM_frequency(pin, 10000)
+            # Motor.pi.set_PWM_range(pin, 100)
     
     def forward(self):
-        Motor.pi.set_PWM_dutycycle(FRONT[0], 90) # Left
-        Motor.pi.set_PWM_dutycycle(FRONT[1], 100) # RightS
-        [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
+        # Motor.pi.set_PWM_dutycycle(FRONT[0], 90) # Left
+        # Motor.pi.set_PWM_dutycycle(FRONT[1], 100) # RightS
+        # [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
+        Motor.pi.write(FRONT[0], 1)
+        Motor.pi.write(FRONT[1], 1)
+        Motor.pi.write(REAR[0], 0)
+        Motor.pi.write(REAR[1], 0)
         print("forward")
         
     def back(self):
-        [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in FRONT]
-        [Motor.pi.set_PWM_dutycycle(pin, self.max_dutyrate) for pin in REAR]
+        
+        # [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in FRONT]
+        # [Motor.pi.set_PWM_dutycycle(pin, self.max_dutyrate) for pin in REAR]
+        Motor.pi.write(FRONT[0], 0)
+        Motor.pi.write(FRONT[1], 0)
+        Motor.pi.write(REAR[0], 1)
+        Motor.pi.write(REAR[1], 1)
+        
         print("back")
     
     def stop(self):
@@ -46,11 +56,13 @@ class Motor(object):
         print("turn left")
         
     def separate(self):
-        Motor.pi.set_PWM_dutycycle(SEPA_FIN, 50) 
-        Motor.pi.set_PWM_dutycycle(SEPA_RIN, 0)
-        time.sleep(3)
-        self.stop()
-        print("parachute separated")
+        # Motor.pi.set_PWM_dutycycle(SEPA_FIN, 50) 
+        # Motor.pi.set_PWM_dutycycle(SEPA_RIN, 0)
+        # time.sleep(3)
+        # self.stop()
+        # print("parachute separated")
+        Motor.pi.write(SEPA_FIN, 1)
+        Motor.pi.write(SEPA_RIN, 0)
                 
     def attach_para(self):
         Motor.pi.set_PWM_dutycycle(SEPA_FIN, 0) 
