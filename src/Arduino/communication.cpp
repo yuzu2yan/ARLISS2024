@@ -15,6 +15,6 @@ void setup() {
 }
 
 void loop() {
-  IM920Serial.print("TXDATes\r\n");
+  IM920Serial.print("TXDATest\r\n");
   delay(1000);
 }
