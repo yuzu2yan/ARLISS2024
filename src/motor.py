@@ -1,22 +1,20 @@
 import pigpio
 import time
-import numpy as np
 
 # pigpio library : https://abyz.me.uk/rpi/pigpio/python.html
-FRONT = [17, 10] # Left, Right
-REAR = [27, 9] # Left, Right
+FRONT = [27, 9] # Left, Right
+REAR = [17, 10] # Left, Right
 SEPA_FIN = 13
 SEPA_RIN = 19
-PINS = FRONT + REAR + [SEPA_FIN, SEPA_RIN]
-
+PINS = [FRONT[0], FRONT[1], REAR[0], REAR[1], SEPA_FIN, SEPA_RIN]
 class Motor(object):
     def __init__(self):
         Motor.pi = pigpio.pi()
         self.max_dutyrate = 1.0
         for pin in PINS:
             Motor.pi.set_mode(pin, pigpio.OUTPUT)
-            # Motor.pi.set_PWM_frequency(pin, 10000)
-            # Motor.pi.set_PWM_range(pin, 100)
+            Motor.pi.set_PWM_frequency(pin, 10000)
+            Motor.pi.set_PWM_range(pin, 100)
     
     def forward(self):
         Motor.pi.set_PWM_dutycycle(FRONT[0], 90) # Left
@@ -26,7 +24,7 @@ class Motor(object):
         
     def back(self):
         [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in FRONT]
-        [Motor.pi.set_PWM_dutycycle(pin, self.max_dutyrate) for pin in REAR]        
+        [Motor.pi.set_PWM_dutycycle(pin, 100) for pin in REAR]        
         print("back")
     
     def stop(self):
