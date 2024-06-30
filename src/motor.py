@@ -33,10 +33,10 @@ class Motor(object):
     def back(self):
         # [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in FRONT]
         # [Motor.pi.set_PWM_dutycycle(pin, 100) for pin in REAR]
-        GPIO.output(FRONT[0], False)
-        GPIO.output(FRONT[1], False)
         GPIO.output(REAR[0], True)
-        GPIO.output(REAR[1], True)        
+        GPIO.output(REAR[1], True)     
+        GPIO.output(FRONT[0], False)
+        GPIO.output(FRONT[1], False)   
         print("back")
     
     def stop(self):
