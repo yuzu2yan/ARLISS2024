@@ -90,6 +90,7 @@ if __name__ == '__main__':
         if c in movement.keys():
             movement[c]()
         elif c == 'z':
+            drive.GPIO.cleanup()
             break
         else:
             print('Invalid input')
