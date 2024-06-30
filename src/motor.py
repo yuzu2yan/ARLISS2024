@@ -1,6 +1,6 @@
 import pigpio
 import time
-import RPI.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 # pigpio library : https://abyz.me.uk/rpi/pigpio/python.html
 FRONT = [27, 9] # Left, Right
