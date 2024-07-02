@@ -3,9 +3,9 @@ import time
 
 # pigpio library : https://abyz.me.uk/rpi/pigpio/python.html
 FRONT = [27, 9] # Left, Right
-REAR = [7, 5] # Left, Right
-SEPA_FIN = 20
-SEPA_RIN = 21
+REAR = [26, 21] # Left, Right
+SEPA_FIN = 12
+SEPA_RIN = 16
 PINS = FRONT + REAR + [SEPA_FIN, SEPA_RIN]
 class Motor(object):
     def __init__(self):
