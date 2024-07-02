@@ -3,7 +3,7 @@ import time
 
 # pigpio library : https://abyz.me.uk/rpi/pigpio/python.html
 FRONT = [27, 9] # Left, Right
-REAR = [26, 21] # Left, Right
+REAR = [4, 21] # Left, Right
 SEPA_FIN = 12
 SEPA_RIN = 16
 PINS = FRONT + REAR + [SEPA_FIN, SEPA_RIN]
