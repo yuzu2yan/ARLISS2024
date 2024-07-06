@@ -21,10 +21,10 @@ def main():
             if gps == [0.0,0.0]:
                 print("Waiting for GPS reception")
                 # time.sleep(5)
+                gps = ["0.0", "0.0"]
             with open(filename, 'a') as f:
                 writer = csv.writer(f)
                 writer.writerow([gps[0], gps[1]])
-            gps = [struct.pack('f', gps[0]), struct.pack('f', gps[1])]
             pi.i2c_write_device(handle, gps)
             time.sleep(1)
     except KeyboardInterrupt:
