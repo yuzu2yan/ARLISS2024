@@ -16,11 +16,18 @@ if __name__ == "__main__":
     # Get a frame from Picamera2
     frame = picam2.capture_array()
     if frame is not None:
+        now = datetime.datetime.now()
         print("Frame read successfully.")
         # Convert the frame to RGB 
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGRA2RGB)
-
-        results = model(frame_rgb)
+        img_yuv = cv2.cvtColor(frame_rgb, cv2.COLOR_BGR2YUV) # RGB => YUV(YCbCr)
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8)) # claheオブジェクトを生成
+        img_yuv[:,:,0] = clahe.apply(img_yuv[:,:,0]) # 輝度にのみヒストグラム平坦化
+        img = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2BGR) # YUV => RGB
+        filename = now.strftime('%Y%m%d %H:%M:%S') + "_original.jpg"
+        cv2.imwrite(filename, img)
+        
+        results = model(img)
         print("Model inference completed.")
         # Annotate the frame with the results
         annotated_frame = results[0].plot()
@@ -42,7 +49,7 @@ if __name__ == "__main__":
         # # Display the annotated frame
         # cv2.imshow("YOLOv8 Inference", annotated_frame)
         now = datetime.datetime.now()
-        filename = now.strftime('%Y%m%d %H:%M:%S') + ".jpg"
+        filename = now.strftime('%Y%m%d %H:%M:%S') + "_annotated.jpg"
         cv2.imwrite(filename, annotated_frame)
 
         # # Break the loop if 'q' is pressed
