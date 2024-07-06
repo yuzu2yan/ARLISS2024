@@ -20,7 +20,8 @@ def main():
             gps = gnss.read_GPSData()
             if gps == [0,0]:
                 print("Waiting for GPS reception")
-                # time.sleep(5)
+                time.sleep(5)
+                continue
             with open(filename, 'a') as f:
                 writer = csv.writer(f)
                 writer.writerow([gps[0], gps[1]])
