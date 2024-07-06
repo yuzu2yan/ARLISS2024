@@ -6,21 +6,22 @@ from ultralytics import YOLO
 
 if __name__ == "__main__":
     model = YOLO('./best.pt')
-
+    print("Model loaded successfully.")
     # Initialize Picamera2
     picam2 = Picamera2()
     config = picam2.create_preview_configuration()
     picam2.configure(config)
     picam2.start()
+    print("Picamera2 initialized successfully.")
     # Get a frame from Picamera2
     frame = picam2.capture_array()
-
     if frame is not None:
+        print("Frame read successfully.")
         # Convert the frame to RGB 
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGRA2RGB)
 
         results = model(frame_rgb)
-
+        print("Model inference completed.")
         # Annotate the frame with the results
         annotated_frame = results[0].plot()
         
