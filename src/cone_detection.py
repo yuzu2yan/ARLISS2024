@@ -10,9 +10,12 @@ import time
 def detect_cone(picam2, model):
     frame = picam2.capture_array()
     if frame is not None:
-        # Convert the frame to RGB 
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGRA2RGB)
-        results = model(frame_rgb)
+        img_yuv = cv2.cvtColor(frame_rgb, cv2.COLOR_BGR2YUV) # RGB => YUV(YCbCr)
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8)) # create a CLAHE object
+        img_yuv[:,:,0] = clahe.apply(img_yuv[:,:,0]) # Apply CLAHE to the Y-channel (luminance)
+        img = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2RGB) # YUV => RGB
+        results = model(img)
         # Annotate the frame with the results
         annotated_frame = results[0].plot()
         result_object = results[0]
@@ -75,5 +78,5 @@ if __name__ == '__main__':
         elif loc == "not found":
             drive.forward()
 
-picam2.stop()   
-# cv2.destroyAllWindows()
+    picam2.stop()   
+    # cv2.destroyAllWindows()

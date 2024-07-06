@@ -11,8 +11,8 @@ if __name__ == "__main__":
     frame = cv2.imread('./8_.jpg')
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGRA2RGB)
     img_yuv = cv2.cvtColor(frame_rgb, cv2.COLOR_BGR2YUV) # RGB => YUV(YCbCr)
-    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8)) # claheオブジェクトを生成
-    img_yuv[:,:,0] = clahe.apply(img_yuv[:,:,0]) # 輝度にのみヒストグラム平坦化
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8)) # create a CLAHE object
+    img_yuv[:,:,0] = clahe.apply(img_yuv[:,:,0]) # apply CLAHE to the Y-channel (luminance)
     img = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2RGB) # YUV => RGB
     filename = now.strftime('%Y%m%d %H:%M:%S') + "_clahe.jpg"
     cv2.imwrite(filename, img)
