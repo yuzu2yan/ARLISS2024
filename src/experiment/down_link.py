@@ -20,7 +20,6 @@ def main():
             if gps == [0,0]:
                 print("Waiting for GPS reception")
                 time.sleep(5)
-                continue
             with open(filename, 'a') as f:
                 writer = csv.writer(f)
                 writer.writerow([now.strftime(gps[0], gps[1])])
