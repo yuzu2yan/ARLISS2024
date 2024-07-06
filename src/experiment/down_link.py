@@ -18,7 +18,7 @@ def main():
     try:
         while True:
             gps = gnss.read_GPSData()
-            if gps == [0,0]:
+            if gps == [0.0,0.0]:
                 print("Waiting for GPS reception")
                 # time.sleep(5)
             with open(filename, 'a') as f:

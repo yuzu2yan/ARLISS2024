@@ -27,7 +27,7 @@ def read_GPSData():
         gps_data = [gps.longitude[0], gps.latitude[0]]
         return gps_data
     else:
-        return [0, 0]
+        return [0.0, 0.0]
     
 if __name__ == '__main__':
     while True:
