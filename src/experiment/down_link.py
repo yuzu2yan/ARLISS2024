@@ -25,8 +25,8 @@ def main():
                 writer = csv.writer(f)
                 writer.writerow([gps[0], gps[1]])
                 # gps = [(int(gps[0]*10000000)), (int(gps[1]*10000000))]
-                gps = [132, 34]
-            pi.i2c_write_device(handle, gps)
+            pi.i2c_write_device(handle, "132")
+            pi.i2c_write_device(handle, "32")
             time.sleep(1)
     except KeyboardInterrupt:
         pi.i2c_close(handle)
