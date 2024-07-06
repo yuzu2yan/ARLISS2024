@@ -23,7 +23,7 @@ def main():
             with open(filename, 'a') as f:
                 writer = csv.writer(f)
                 writer.writerow([gps[0], gps[1]])
-                gps.encode('utf-8')
+                gps = [str(gps[0]), str(gps[1])]
             pi.i2c_write_device(handle, gps)
             time.sleep(1)
     except KeyboardInterrupt:
