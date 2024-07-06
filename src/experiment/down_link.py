@@ -18,19 +18,19 @@ def main():
     try:
         while True:
             gps = gnss.read_GPSData()
-            if gps == [0, 0]:
+            if gps == [0,0]:
                 print("Waiting for GPS reception")
-                continue
+                # time.sleep(5)
             with open(filename, 'a') as f:
                 writer = csv.writer(f)
                 writer.writerow([gps[0], gps[1]])
-            # GPSデータをバイト列に変換
-            gps_bytes = struct.pack('ii', int(gps[0]*10000000), int(gps[1]*10000000))
-            pi.i2c_write_device(handle, list(gps_bytes))
+                gps = [(int(gps[0]*10000000)), (int(gps[1]*10000000))]
+            pi.i2c_write_device(handle, gps)
             time.sleep(1)
     except KeyboardInterrupt:
         pi.i2c_close(handle)
-        pi.stop()
-
+        pi.stop()        
+    
+    
 if __name__ == '__main__':
     main()
