@@ -25,7 +25,7 @@ def main():
             with open(filename, 'a') as f:
                 writer = csv.writer(f)
                 writer.writerow([gps[0], gps[1]])
-            print("longitude : f{gps[0]}, latitude : f{gps[1]}")
+            print('longitude : ', gps[0], 'latitude : ', gps[1])
             pi.i2c_write_device(handle, str(gps[0]))
             pi.i2c_write_device(handle, str(gps[1]))
             time.sleep(1)
