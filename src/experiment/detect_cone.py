@@ -18,13 +18,14 @@ if __name__ == "__main__":
     if frame is not None:
         now = datetime.datetime.now()
         print("Frame read successfully.")
+        cv2.imwrite(now.strftime('%Y%m%d %H:%M:%S') + "_original.jpg", frame)   
         # Convert the frame to RGB 
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGRA2RGB)
         img_yuv = cv2.cvtColor(frame_rgb, cv2.COLOR_BGR2YUV) # RGB => YUV(YCbCr)
         clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8)) # claheオブジェクトを生成
         img_yuv[:,:,0] = clahe.apply(img_yuv[:,:,0]) # 輝度にのみヒストグラム平坦化
         img = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2BGR) # YUV => RGB
-        filename = now.strftime('%Y%m%d %H:%M:%S') + "_original.jpg"
+        filename = now.strftime('%Y%m%d %H:%M:%S') + "_clahe.jpg"
         cv2.imwrite(filename, img)
         
         results = model(img)
