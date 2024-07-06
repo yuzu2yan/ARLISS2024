@@ -1,10 +1,10 @@
 import cv2
 import datetime
 from picamera2 import Picamera2
-from yolov5 import YOLOv5
+import torch  
 
 # YOLOv5のnanoモデルを読み込む
-model = YOLOv5('./best.pt')
+model = torch.hub.load('.', 'custom', path='best', source='local')
 
 # Picamera2の初期化
 picam2 = Picamera2()
