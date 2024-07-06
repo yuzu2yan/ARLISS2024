@@ -27,7 +27,7 @@ def main():
             # GPSデータをバイト列に変換
             gps_bytes = struct.pack('ii', int(gps[0]*10000000), int(gps[1]*10000000))
             pi.i2c_write_device(handle, list(gps_bytes))
-            time.sleep(1)
+            time.sleep(1000)
     except KeyboardInterrupt:
         pi.i2c_close(handle)
         pi.stop()
