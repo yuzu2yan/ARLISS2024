@@ -25,7 +25,7 @@ def main():
                 writer = csv.writer(f)
                 writer.writerow([gps[0], gps[1]])
             pi.i2c_write_device(handle, str(gps[0]))
-            pi.i2c_write_device(handle, str(gps[1])
+            pi.i2c_write_device(handle, str(gps[1]))
             time.sleep(1)
     except KeyboardInterrupt:
         pi.i2c_close(handle)
