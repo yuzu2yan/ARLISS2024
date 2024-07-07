@@ -5,6 +5,8 @@ import numpy as np
 import datetime
 import csv
 import matplotlib.pyplot as plt
+import sys
+sys.path.append('./../')
 import bme280
 
 i2c = board.I2C()  # uses board.SCL and board.SDA
