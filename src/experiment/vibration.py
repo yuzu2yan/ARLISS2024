@@ -5,6 +5,7 @@ import numpy as np
 import datetime
 import csv
 import matplotlib.pyplot as plt
+import bme280
 
 i2c = board.I2C()  # uses board.SCL and board.SDA
 sensor = adafruit_bno055.BNO055_I2C(i2c)
@@ -37,10 +38,11 @@ if __name__ == '__main__':
                 passed_time = now - date
                 accel_data.append(accel)
                 time_data.append(passed_time.total_seconds())
+                baro_data = bme280.read_BaroData()
                 
                 with open(filename, 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([passed_time.total_seconds(), linear_acceleration[0], linear_acceleration[1], linear_acceleration[2], accel])
+                    writer.writerow([passed_time.total_seconds(), linear_acceleration[0], linear_acceleration[1], linear_acceleration[2], accel, baro_data[0], baro_data[1])
                 
                 time.sleep(0.01)
             else:
