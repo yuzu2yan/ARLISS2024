@@ -42,7 +42,7 @@ if __name__ == '__main__':
                 
                 with open(filename, 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([passed_time.total_seconds(), linear_acceleration[0], linear_acceleration[1], linear_acceleration[2], accel, baro_data[0], baro_data[1])
+                    writer.writerow([passed_time.total_seconds(), linear_acceleration[0], linear_acceleration[1], linear_acceleration[2], accel, baro_data[0], baro_data[1]])
                 
                 time.sleep(0.01)
             else:
