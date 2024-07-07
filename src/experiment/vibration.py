@@ -23,11 +23,15 @@ if __name__ == '__main__':
     accel_data = []
     time_data = []
     
+    prev_accel = 0
     while True:
         try:
             linear_acceleration = get_linear_acceleration(sensor)
             if linear_acceleration is not None:
                 accel = np.sqrt(linear_acceleration[0]**2 + linear_acceleration[1]**2 + linear_acceleration[2]**2) / 9.81
+                prev_accel = accel
+                if abs(accel - prev_accel) > 15:
+                    continue
                 print('accel : ', accel)
                 now = datetime.datetime.now()
                 passed_time = now - date
