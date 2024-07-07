@@ -36,7 +36,7 @@ if __name__ == '__main__':
                 
                 with open(filename, 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([passed_time.total_seconds(), date.strftime('%H:%M:%S'), accel])
+                    writer.writerow([passed_time.total_seconds(), linear_acceleration[0], linear_acceleration[1], linear_acceleration[2], accel])
                 
                 time.sleep(0.01)
             else:
