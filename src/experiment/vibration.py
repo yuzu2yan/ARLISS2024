@@ -29,9 +29,9 @@ if __name__ == '__main__':
             linear_acceleration = get_linear_acceleration(sensor)
             if linear_acceleration is not None:
                 accel = np.sqrt(linear_acceleration[0]**2 + linear_acceleration[1]**2 + linear_acceleration[2]**2) / 9.81
-                prev_accel = accel
-                if abs(accel - prev_accel) > 15:
+                if abs(accel - prev_accel) > 15.0:
                     continue
+                prev_accel = accel
                 print('accel : ', accel)
                 now = datetime.datetime.now()
                 passed_time = now - date
