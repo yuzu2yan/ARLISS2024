@@ -43,6 +43,18 @@ class Motor(object):
         [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
         print("turn left")
         
+    def stuck(self):
+        print("stuck")
+        self.stop()
+        self.back()
+        time.sleep(3)
+        self.turn_right()
+        time.sleep(3)
+        self.forward()
+        time.sleep(3)
+        self.stop()
+        print("stuck process end")
+        
     def separate(self):
         # Motor.pi.set_PWM_dutycycle(SEPA_FIN, 50) 
         # Motor.pi.set_PWM_dutycycle(SEPA_RIN, 0)
