@@ -10,7 +10,6 @@ PINS = FRONT + REAR + [SEPA_FIN, SEPA_RIN]
 class Motor(object):
     def __init__(self):
         Motor.pi = pigpio.pi()
-        self.max_dutyrate = 1.0
         for pin in PINS:
             Motor.pi.set_mode(pin, pigpio.OUTPUT)
             Motor.pi.set_PWM_frequency(pin, 10000)
@@ -32,14 +31,14 @@ class Motor(object):
         print("stop")
         
     def turn_right(self):
-        Motor.pi.set_PWM_dutycycle(FRONT[0], 90 * 0.7 * self.max_dutyrate) # Left
-        Motor.pi.set_PWM_dutycycle(FRONT[1], 100 * self.max_dutyrate) # Right
+        Motor.pi.set_PWM_dutycycle(FRONT[0], 100) # Left
+        Motor.pi.set_PWM_dutycycle(FRONT[1], 80) # Right
         [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
         print("turn right")
     
     def turn_left(self):
-        Motor.pi.set_PWM_dutycycle(FRONT[0], 90* self.max_dutyrate) # Left
-        Motor.pi.set_PWM_dutycycle(FRONT[1], self.max_dutyrate * 0.7) # Right
+        Motor.pi.set_PWM_dutycycle(FRONT[0], 80) # Left
+        Motor.pi.set_PWM_dutycycle(FRONT[1], 100) # Right
         [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
         print("turn left")
         
