@@ -73,7 +73,7 @@ class Motor(object):
 
 if __name__ == '__main__':
     drive = Motor()
-    movement = {'w': drive.forward, 'a': drive.turn_left, 's': drive.back, 'd':drive.turn_right, 'q': drive.stop, 'sep': drive.separate, 'para': drive.attach_para}
+    movement = {'w': drive.forward, 'a': drive.turn_left, 's': drive.back, 'd':drive.turn_right, 'q': drive.stop, 'sep': drive.separate, 'para': drive.attach_para, 'stuck': drive.stuck}
     while True:
         c = input('Enter char : ')
         if c in movement.keys():
