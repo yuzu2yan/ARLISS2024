@@ -8,7 +8,7 @@ if __name__ == "__main__":
     model = YOLO('./best.pt')
     print("Model loaded successfully.")  
         # Convert the frame to RGB 
-    frame = cv2.imread('./8_.jpg')
+    frame = cv2.imread('../../data/test5.jpg')
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGRA2RGB)
     img_yuv = cv2.cvtColor(frame_rgb, cv2.COLOR_BGR2YUV) # RGB => YUV(YCbCr)
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8)) # create a CLAHE object
@@ -35,6 +35,11 @@ if __name__ == "__main__":
     for box, class_id in zip(bounding_boxes, class_ids):
         class_name = class_names_dict[int(class_id)]
         print(f"Box coordinates: {box}, Object: {class_name}")
+        
+    max_box = bounding_boxes[0]
+    max_box_area = (max_box[2] - max_box[0]) * (max_box[3] - max_box[1])
+    box_ratio = max_box_area / (img.shape[0] * img.shape[1]) * 100
+    print(f"Box area ratio: {box_ratio:.2f}%")
     
     # # Display the annotated frame
     # cv2.imshow("YOLOv8 Inference", annotated_frame)
