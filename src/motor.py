@@ -30,6 +30,13 @@ class Motor(object):
         [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in PINS]
         print("stop")
         
+    def slowly_stop(self):
+        for i in range(100, 0, -1):
+            [Motor.pi.set_PWM_dutycycle(pin, i) for pin in FRONT]
+            [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
+            time.sleep(0.03)
+        print("slowly stop")
+        
     def turn_right(self):
         Motor.pi.set_PWM_dutycycle(FRONT[0], 100) # Left
         Motor.pi.set_PWM_dutycycle(FRONT[1], 80) # Right
@@ -73,7 +80,7 @@ class Motor(object):
 
 if __name__ == '__main__':
     drive = Motor()
-    movement = {'w': drive.forward, 'a': drive.turn_left, 's': drive.back, 'd':drive.turn_right, 'q': drive.stop, 'sep': drive.separate, 'para': drive.attach_para, 'stuck': drive.stuck}
+    movement = {'w': drive.forward, 'a': drive.turn_left, 's': drive.back, 'd':drive.turn_right, 'q': drive.stop, 'sep': drive.separate, 'para': drive.attach_para, 'stuck': drive.stuck, 'sl': drive.slowly_stop}
     while True:
         c = input('Enter char : ')
         if c in movement.keys():
