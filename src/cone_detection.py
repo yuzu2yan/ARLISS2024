@@ -5,13 +5,18 @@ from picamera2 import Picamera2
 from ultralytics import YOLO
 import motor
 import time
+import datetime
 
     
-def detect_cone(picam2, model):
+def detect_cone(picam2, model, directory_path="./"):
     frame = picam2.capture_array()
     if frame is not None:
+        now = datetime.datetime.now()
+        original_file_name = directory_path + '/' + now.strftime('%Y%m%d %H:%M:%S') + "_original.jpg"
+        
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGRA2RGB)
-        img_yuv = cv2.cvtColor(frame_rgb, cv2.COLOR_BGR2YUV) # RGB => YUV(YCbCr)
+        cv2.imwrite(original_file_name, frame_rgb)
+        img_yuv = cv2.cvtColor(frame_rgb, cv2.COLOR_RGB2YUV) # RGB => YUV(YCbCr)
         clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8)) # create a CLAHE object
         img_yuv[:,:,0] = clahe.apply(img_yuv[:,:,0]) # Apply CLAHE to the Y-channel (luminance)
         img = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2RGB) # YUV => RGB
@@ -35,17 +40,18 @@ def detect_cone(picam2, model):
         print("Error: Frame not read successfully.")
         return 0, 0, 0, "not found"
     shape = frame.shape
-    if central_x < shape[1] / 3:
+    if red_cone_percent < 50:
+        loc = "not found"
+    elif central_x < shape[1] / 3:
         loc = "left"
     elif central_x > shape[1] * 2 / 3:
         loc = "right"
-    elif percent < 15:
-        loc = "not found"
     else:
-        loc = "not found"
+        loc = "center"
     now = datetime.datetime.now()
-    cv2.imwrite(f"img_{now.strftime('%Y%m%d%H%M%S')}.jpg", annotated_frame)
-    return percent, red_cone_percent, central_x, loc
+    annotated_file_name = directory_path + '/' + now.strftime('%Y%m%d %H:%M:%S') + "_annotated.jpg"
+    cv2.imwrite(annotated_file_name, annotated_frame)
+    return percent, red_cone_percent, loc, original_file_name, annotated_file_name
 
 
 if __name__ == '__main__':
@@ -58,7 +64,7 @@ if __name__ == '__main__':
     
     drive = motor.Motor()
     while True:
-        percent, red_cone_percent, central_x, loc = detect_cone(picam2, model)
+        percent, red_cone_percent, loc = detect_cone(picam2, model)
         print("percent:", percent, "location:", loc)
         # Goal judgment
         if red_cone_percent < 10:
