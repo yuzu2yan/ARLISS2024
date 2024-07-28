@@ -20,7 +20,7 @@ class FloatingLogger(object):
 
     def __init__(self, directory_path):
         now = datetime.datetime.now()
-        FloatingLogger.filename = directory_path + '/' + now + 'floating.csv'
+        FloatingLogger.filename = directory_path + '/' + now.strftime('%Y%m%d %H:%M:%S') + 'floating.csv'
         with open(FloatingLogger.filename, 'w') as f:
             writer = csv.writer(f)
             writer.writerow([now.strftime('%Y%m%d %H:%M:%S')])
