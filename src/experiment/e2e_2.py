@@ -16,7 +16,7 @@ from ultralytics import YOLO
 
 
 def main():
-    des = [35.617, 139.548]
+    des = [139.762, 35.681]
     """
     phase 1 : Floating
           2 : Ground 
@@ -28,7 +28,7 @@ def main():
     reach_goal = False
     phase = 2
     now = datetime.datetime.now()
-    directory_path = "./../data/" + now.strftime('%Y%m%d %H:%M:%S')
+    directory_path = "../../data/" + now.strftime('%Y%m%d %H:%M:%S')
     os.makedirs(directory_path)
     ground_log = logger.GroundLogger(directory_path)
     ground_log.state = 'Normal'
