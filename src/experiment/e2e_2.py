@@ -70,7 +70,7 @@ def main():
                     drive.turn_right()
                 elif data[4] == 'Turn Left':
                     drive.turn_left()
-                time.sleep(3)
+                time.sleep(0.5)
                 drive.forward()
                 gps = gnss.read_GPSData()
                 # The value used to check if the rover is heading towards the goal
@@ -81,7 +81,7 @@ def main():
                 count += 1
             # End of Orientation Correction
             drive.forward()
-            time.sleep(5)
+            time.sleep(3)
             gps = gnss.read_GPSData()
             var = ground.cal_distance(pre_gps[0], pre_gps[1], gps[0], gps[1])   
             if var < 1:
