@@ -134,7 +134,7 @@ def main():
             elif cone_loc == "not found":
                 not_found += 1
                 drive.turn_right()
-                time.sleep(0.3)
+                time.sleep(5)
             if not_found >= 10:
                 print('Error : Cone not found')
                 drive.stop()
