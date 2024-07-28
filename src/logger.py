@@ -52,7 +52,7 @@ class GroundLogger(object):
     
     def __init__(self, directory_path):
         now = datetime.datetime.now()
-        GroundLogger.filename = directory_path + 'ground.csv'
+        GroundLogger.filename = directory_path + '/' + now.strftime('%Y%m%d %H:%M:%S') + 'ground.csv'
         with open(GroundLogger.filename, 'w') as f:
             writer = csv.writer(f)
             writer.writerow([now.strftime('%Y%m%d %H:%M:%S')])
@@ -83,7 +83,7 @@ class ImgProcLogger(object):
     """
     def __init__(self, directory_path):
         now = datetime.datetime.now()
-        ImgProcLogger.filename = directory_path + 'img_proc.csv'
+        ImgProcLogger.filename = directory_path + '/' + now.strftime('%Y%m%d %H:%M:%S') + 'img_proc.csv'
         with open(ImgProcLogger.filename, 'w') as f:
             writer = csv.writer(f)
             writer.writerow([now.strftime('%Y%m%d %H:%M:%S')])
