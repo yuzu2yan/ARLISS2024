@@ -16,7 +16,7 @@ from ultralytics import YOLO
 
 
 def main():
-    des = [139.65365666666668, 35.950985]
+    des = [139.653698, 35.95100333333333]
     """
     phase 1 : Floating
           2 : Ground 
