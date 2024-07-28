@@ -87,14 +87,14 @@ class ImgProcLogger(object):
         with open(ImgProcLogger.filename, 'w') as f:
             writer = csv.writer(f)
             writer.writerow([now.strftime('%Y%m%d %H:%M:%S')])
-            writer.writerow(['time', 'cone place', 'distance to goal', 'percent', 'ditected img name', 'tof image name'])
+            writer.writerow(['time', 'cone place', 'distance to goal', 'percent', 'red cone percent', 'original img name', 'ditected img name'])
         f.close()
         
-    def img_proc_logger(self, cone_place, distance, percent, ditected_img_name, tof_img_name):
+    def img_proc_logger(self, cone_place, distance, percent, red_cone_percent, original_img_name, ditected_img_name):
         with open(ImgProcLogger.filename, 'a') as f:
             now = datetime.datetime.now()
             writer = csv.writer(f)
-            writer.writerow([now.strftime('%H:%M:%S'), cone_place, distance, percent, ditected_img_name, tof_img_name])
+            writer.writerow([now.strftime('%H:%M:%S'), cone_place, distance, percent, red_cone_percent, original_img_name, ditected_img_name])
         f.close()    
     
     def end_of_img_proc_phase(self):

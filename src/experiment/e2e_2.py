@@ -101,7 +101,7 @@ def main():
             print("distance : ", distance)
             try:
                 percent, red_cone_percent, cone_loc, original_img_name, ditected_img_name = cone_detection.detect_cone(picam2, model, directory_path)
-                img_proc_log.img_proc_logger(cone_loc, percent, original_img_name, ditected_img_name)
+                img_proc_log.img_proc_logger(cone_loc, distance, percent, red_cone_percent,original_img_name, ditected_img_name)
                 print("percent:", percent, "distance:", distance, "location:", cone_loc)
             except Exception as e:
                     print("Error : Image processing failed")
