@@ -17,7 +17,7 @@ def main():
     if phase == 1:
         print("phase : ", phase)
         now = datetime.datetime.now()
-        directory_path = "./../data/" + now.strftime('%Y%m%d %H:%M:%S')
+        directory_path = "../../data/" + now.strftime('%Y%m%d %H:%M:%S')
         os.makedirs(directory_path)
         floating_log = logger.FloatingLogger(directory_path)
         """
