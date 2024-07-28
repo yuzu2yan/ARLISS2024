@@ -1,8 +1,8 @@
 import os
-import logger
 import time
 import sys
 sys.path.append('./../')
+import logger
 import datetime
 import csv
 import yaml
