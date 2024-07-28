@@ -30,14 +30,18 @@ def detect_cone(picam2, model, directory_path="./"):
             return 0, 0, "not found", original_file_name, "not found"
         # Annotate the frame with the results
         annotated_frame = results[0].plot()
+        print("Frame annotated.")
         result_object = results[0]
+        print("Results obtained.")
         # Get the bounding box positions
         bounding_boxes = result_object.boxes.xyxy
         central_x = (bounding_boxes[0][0] + bounding_boxes[0][2]) / 2
         percent = int(100 * result_object.scores[0])
         red_cone_percent = (bounding_boxes[0][2] - bounding_boxes[0][0]) * (bounding_boxes[0][3] - bounding_boxes[0][1]) / (frame.shape[0] * frame.shape[1]) * 100
+        print("Bounding boxes obtained.")
         # Get the class IDs
         class_ids = result_object.boxes.cls
+        print("Class IDs obtained.")
         # Get the class names
         class_names_dict = result_object.names
         for box, class_id in zip(bounding_boxes, class_ids):
