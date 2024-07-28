@@ -16,7 +16,7 @@ from ultralytics import YOLO
 
 
 def main():
-    des = [139.65381333333335, 35.951436666666666]
+    des = [139.653675, 35.95090666666667]
     """
     phase 1 : Floating
           2 : Ground 
@@ -94,7 +94,7 @@ def main():
         print("phase : ", phase)
         not_found = 0
         while phase == 3:
-            drive.stop()
+            drive.slowly_stop()
             gps = gnss.read_GPSData()
             pre_gps = gps
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
