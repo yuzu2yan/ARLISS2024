@@ -70,7 +70,7 @@ def main():
                     drive.turn_right()
                 elif data[4] == 'Turn Left':
                     drive.turn_left()
-                time.sleep(0.3)
+                time.sleep(3)
                 drive.forward()
                 gps = gnss.read_GPSData()
                 # The value used to check if the rover is heading towards the goal
