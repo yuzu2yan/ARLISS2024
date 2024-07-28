@@ -1,6 +1,6 @@
 import os
 import sys
-sys.append('./../')
+sys.path.append('./../')
 import logger
 import time
 import datetime
