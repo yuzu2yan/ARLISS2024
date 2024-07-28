@@ -13,6 +13,7 @@ def detect_cone(picam2, model, directory_path="./"):
     if frame is not None:
         now = datetime.datetime.now()
         original_file_name = directory_path + '/' + now.strftime('%Y%m%d %H:%M:%S') + "_original.jpg"
+        print("Frame read successfully.")
         
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGRA2RGB)
         cv2.imwrite(original_file_name, frame_rgb)
@@ -20,7 +21,9 @@ def detect_cone(picam2, model, directory_path="./"):
         clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8)) # create a CLAHE object
         img_yuv[:,:,0] = clahe.apply(img_yuv[:,:,0]) # Apply CLAHE to the Y-channel (luminance)
         img = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2RGB) # YUV => RGB
+        print("CLAHE applied.")
         results = model(img)
+        print("Model inference completed.")
         # Annotate the frame with the results
         annotated_frame = results[0].plot()
         result_object = results[0]
