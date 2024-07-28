@@ -25,7 +25,7 @@ def detect_cone(picam2, model, directory_path="./"):
         results = model(img)
         print("Model inference completed.")
         # If nothing is detected, return 0
-        if len(results) == 0:
+        if len(results[0].boxes) == 0:
             print("Error: No object detected.")
             return 0, 0, "not found", original_file_name, "not found"
         # Annotate the frame with the results

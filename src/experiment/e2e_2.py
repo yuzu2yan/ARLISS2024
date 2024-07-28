@@ -95,6 +95,7 @@ def main():
         not_found = 0
         while phase == 3:
             drive.slowly_stop()
+            time.sleep(5)
             gps = gnss.read_GPSData()
             pre_gps = gps
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
