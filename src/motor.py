@@ -62,21 +62,17 @@ class Motor(object):
         print("stuck process end")
         
     def separate(self):
-        # Motor.pi.set_PWM_dutycycle(SEPA_FIN, 50) 
-        # Motor.pi.set_PWM_dutycycle(SEPA_RIN, 0)
-        # time.sleep(3)
-        # self.stop()
-        # print("parachute separated")
-        Motor.pi.write(SEPA_FIN, 1)
-        Motor.pi.write(SEPA_RIN, 0)
+        Motor.pi.set_PWM_dutycycle(SEPA_FIN, 50) 
+        Motor.pi.set_PWM_dutycycle(SEPA_RIN, 0)
+        time.sleep(3)
+        self.stop()
+        print("parachute separated")
         
                 
     def attach_para(self):
-        # Motor.pi.set_PWM_dutycycle(SEPA_FIN, 0) 
-        # Motor.pi.set_PWM_dutycycle(SEPA_RIN, 50) 
-        # print("parachute attached")
-        Motor.pi.write(SEPA_FIN, 0)
-        Motor.pi.write(SEPA_RIN, 1)
+        Motor.pi.set_PWM_dutycycle(SEPA_FIN, 0) 
+        Motor.pi.set_PWM_dutycycle(SEPA_RIN, 50) 
+        print("parachute attached")
 
 if __name__ == '__main__':
     drive = Motor()
