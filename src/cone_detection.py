@@ -71,7 +71,7 @@ def detect_cone(picam2, model, directory_path="./"):
 
 
 if __name__ == '__main__':
-    model = YOLO('./best.pt')
+    model = YOLO('../model/yolo.pt')
     # Initialize Picamera2
     picam2 = Picamera2()
     config = picam2.create_preview_configuration()
