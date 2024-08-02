@@ -36,6 +36,9 @@ def detect_cone(picam2, model, directory_path="./"):
         try:
             # Get the bounding box positions
             bounding_boxes = result_object.boxes.xyxy
+            if bounding_boxes is None:
+                print("Error: Bounding boxes not found.")
+                return 0, 0, "not found", original_file_name, "not found"
             central_x = (bounding_boxes[0][0] + bounding_boxes[0][2]) / 2
             percent = int(100 * result_object.probs[0])
             print("percent:", percent)
@@ -43,6 +46,9 @@ def detect_cone(picam2, model, directory_path="./"):
             print("Bounding boxes obtained.")
             # Get the class IDs
             class_ids = result_object.boxes.cls
+            if class_ids is None:
+                print("Error: Class IDs not found.")
+                return 0, 0, "not found", original_file_name, "not found"
             print("Class IDs obtained.")
             # Get the class names
             class_names_dict = result_object.names
@@ -51,11 +57,11 @@ def detect_cone(picam2, model, directory_path="./"):
                 print(f"Box coordinates: {box}, Object: {class_name}")
         except Exception as e:
             print("Error:", e)
-            return 0, 0, 0, "not found", "not found", "not found"            
+            return 0, 0, "not found", original_file_name, "not found"            
     
     else:
         print("Error: Frame not read successfully.")
-        return 0, 0, 0, "not found"
+        return 0, 0, "not found", "not found", "not found"
     shape = frame.shape
     if red_cone_percent < 50:
         loc = "not found"
