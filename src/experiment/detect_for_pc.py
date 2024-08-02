@@ -1,52 +1,99 @@
 import cv2
 import datetime
+import numpy as np
 from ultralytics import YOLO
+import time
+import datetime
 
-
-if __name__ == "__main__":
-    now = datetime.datetime.now()
-    model = YOLO('./best.pt')
-    print("Model loaded successfully.")  
-        # Convert the frame to RGB 
-    frame = cv2.imread('../../data/test5.jpg')
-    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGRA2RGB)
-    img_yuv = cv2.cvtColor(frame_rgb, cv2.COLOR_BGR2YUV) # RGB => YUV(YCbCr)
-    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8)) # create a CLAHE object
-    img_yuv[:,:,0] = clahe.apply(img_yuv[:,:,0]) # apply CLAHE to the Y-channel (luminance)
-    img = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2RGB) # YUV => RGB
-    filename = now.strftime('%Y%m%d %H:%M:%S') + "_clahe.jpg"
-    cv2.imwrite(filename, img)
     
-    results = model(img)
-    print("Model inference completed.")
-    # Annotate the frame with the results
-    annotated_frame = results[0].plot()
-    
-    result_object = results[0]
-
-    # Get the bounding box positions
-    bounding_boxes = result_object.boxes.xyxy
-
-    # Get the class IDs
-    class_ids = result_object.boxes.cls
-    # Get the class names
-    class_names_dict = result_object.names
-
-    for box, class_id in zip(bounding_boxes, class_ids):
-        class_name = class_names_dict[int(class_id)]
-        print(f"Box coordinates: {box}, Object: {class_name}")
+def detect_cone(cam, model, directory_path="./"):
+    frame = cam.read()[1]
+    if frame is not None:
+        now = datetime.datetime.now()
+        original_file_name = directory_path + '/' + now.strftime('%Y%m%d %H:%M:%S') + "_original.jpg"
+        print("Frame read successfully.")
         
-    max_box = bounding_boxes[0]
-    max_box_area = (max_box[2] - max_box[0]) * (max_box[3] - max_box[1])
-    box_ratio = max_box_area / (img.shape[0] * img.shape[1]) * 100
-    print(f"Box area ratio: {box_ratio:.2f}%")
+        # frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGRA2RGB)
+        frame_rgb = frame
+        # cv2.imwrite(original_file_name, frame_rgb)
+        # cv2.imshow("Original", frame_rgb)
+        img_yuv = cv2.cvtColor(frame_rgb, cv2.COLOR_RGB2YUV) # RGB => YUV(YCbCr)
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8)) # create a CLAHE object
+        img_yuv[:,:,0] = clahe.apply(img_yuv[:,:,0]) # Apply CLAHE to the Y-channel (luminance)
+        img = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2RGB) # YUV => RGB
+        print("CLAHE applied.")
+        # cv2.imwrite(directory_path + '/' + now.strftime('%Y%m%d %H:%M:%S') + "_clahe.jpg", img)
+        cv2.imshow("CLAHE", img)
+        results = model(img)
+        print("Model inference completed.")
+        # If nothing is detected, return 0
+        if len(results[0].boxes) == 0:
+            print("No object detected.")
+            return 0, 0, "not found", original_file_name, "not found"
+        # Annotate the frame with the results
+        annotated_frame = results[0].plot()
+        print("Frame annotated.")
+        result_object = results[0]
+        print("Results obtained.")
+        try:
+            # Get the bounding box positions
+            bounding_boxes = result_object.boxes.xyxy
+            central_x = (bounding_boxes[0][0] + bounding_boxes[0][2]) / 2
+            percent = int(100 * result_object.probs[0])
+            print("percent:", percent)
+            red_cone_percent = (bounding_boxes[0][2] - bounding_boxes[0][0]) * (bounding_boxes[0][3] - bounding_boxes[0][1]) / (frame.shape[0] * frame.shape[1]) * 100
+            print("Bounding boxes obtained.")
+            # Get the class IDs
+            class_ids = result_object.boxes.cls
+            print("Class IDs obtained.")
+            # Get the class names
+            class_names_dict = result_object.names
+            for box, class_id in zip(bounding_boxes, class_ids):
+                class_name = class_names_dict[int(class_id)]
+                print(f"Box coordinates: {box}, Object: {class_name}")
+            cv2.imshow("YOLOv8 Inference", annotated_frame)
+        except Exception as e:
+            print("Error:", e)
+            return 0, 0, "not found", original_file_name, "not found"            
     
-    # # Display the annotated frame
-    # cv2.imshow("YOLOv8 Inference", annotated_frame)
+    else:
+        print("Error: Frame not read successfully.")
+        return 0, 0, "not found", "not found", "not found"
+    shape = frame.shape
+    if red_cone_percent < 50:
+        loc = "not found"
+    elif central_x < shape[1] / 3:
+        loc = "left"
+    elif central_x > shape[1] * 2 / 3:
+        loc = "right"
+    else:
+        loc = "center"
     now = datetime.datetime.now()
-    filename = now.strftime('%Y%m%d %H:%M:%S') + "_annotated.jpg"
-    cv2.imwrite(filename, annotated_frame)
+    annotated_file_name = directory_path + '/' + now.strftime('%Y%m%d %H:%M:%S') + "_annotated.jpg"
+    cv2.imwrite(annotated_file_name, annotated_frame)
+    return percent, red_cone_percent, loc, original_file_name, annotated_file_name
 
-        # # Break the loop if 'q' is pressed
-        # if cv2.waitKey(1) & 0xFF == ord("q"):
-        #     break
+
+if __name__ == '__main__':
+    model = YOLO('../../model/yolo.pt')
+    # Initialize Camera with OpenCV
+    cam = cv2.VideoCapture(0)
+    
+    
+    while True:
+        percent, red_cone_percent, loc, original_file_name, annotated_file_name = detect_cone(cam, model)
+        print("percent:", percent, "location:", loc)
+        # Goal judgment
+        if red_cone_percent < 10 and loc != "not found":
+            print("Reach the goal")
+            time.sleep(2.0)
+            break
+        if loc == "right":
+            time.sleep(0.3)
+        elif loc == "left":
+            time.sleep(0.3)
+        elif loc == "not found":
+            time.sleep(0.3)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+    # cv2.destroyAllWindows()

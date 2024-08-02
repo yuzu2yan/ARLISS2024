@@ -26,7 +26,7 @@ def detect_cone(picam2, model, directory_path="./"):
         results = model(img)
         print("Model inference completed.")
         # If nothing is detected, return 0
-        if len(results[0].boxes) or results[0].boxes is None == 0:
+        if len(results[0].boxes) == 0:
             print("No object detected.")
             return 0, 0, "not found", original_file_name, "not found"
         # Annotate the frame with the results
@@ -38,18 +38,10 @@ def detect_cone(picam2, model, directory_path="./"):
             # Get the bounding box positions
             bounding_boxes = result_object.boxes.xyxy
             central_x = (bounding_boxes[0][0] + bounding_boxes[0][2]) / 2
-            percent = int(100 * result_object.probs[0])
+            percent = int(100 * result_object.boxes.conf[0])
             print("percent:", percent)
             red_cone_percent = (bounding_boxes[0][2] - bounding_boxes[0][0]) * (bounding_boxes[0][3] - bounding_boxes[0][1]) / (frame.shape[0] * frame.shape[1]) * 100
             print("Bounding boxes obtained.")
-            # Get the class IDs
-            class_ids = result_object.boxes.cls
-            print("Class IDs obtained.")
-            # Get the class names
-            class_names_dict = result_object.names
-            for box, class_id in zip(bounding_boxes, class_ids):
-                class_name = class_names_dict[int(class_id)]
-                print(f"Box coordinates: {box}, Object: {class_name}")
         except Exception as e:
             print("Error:", e)
             return 0, 0, "not found", original_file_name, "not found"            
