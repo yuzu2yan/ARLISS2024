@@ -37,7 +37,7 @@ def detect_cone(picam2, model, directory_path="./"):
             # Get the bounding box positions
             bounding_boxes = result_object.boxes.xyxy
             central_x = (bounding_boxes[0][0] + bounding_boxes[0][2]) / 2
-            percent = int(100 * result_object.prob[0])
+            percent = int(100 * result_object.probs[0])
             red_cone_percent = (bounding_boxes[0][2] - bounding_boxes[0][0]) * (bounding_boxes[0][3] - bounding_boxes[0][1]) / (frame.shape[0] * frame.shape[1]) * 100
             print("Bounding boxes obtained.")
             # Get the class IDs
