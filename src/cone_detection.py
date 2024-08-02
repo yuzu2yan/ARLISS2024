@@ -55,9 +55,9 @@ def detect_cone(picam2, model, directory_path="./"):
     shape = frame.shape
     if percent < 50:
         loc = "not found"
-    elif central_x < shape[1] / 3:
+    elif central_x < 35:
         loc = "left"
-    elif central_x > shape[1] * 2 / 3:
+    elif central_x > 65:
         loc = "right"
     else:
         loc = "center"
