@@ -22,6 +22,7 @@ def detect_cone(picam2, model, directory_path="./"):
         img_yuv[:,:,0] = clahe.apply(img_yuv[:,:,0]) # Apply CLAHE to the Y-channel (luminance)
         img = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2RGB) # YUV => RGB
         print("CLAHE applied.")
+        cv2.imwrite(directory_path + '/' + now.strftime('%Y%m%d %H:%M:%S') + "_clahe.jpg", img)
         results = model(img)
         print("Model inference completed.")
         # If nothing is detected, return 0
