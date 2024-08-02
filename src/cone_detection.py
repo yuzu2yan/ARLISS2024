@@ -53,7 +53,7 @@ def detect_cone(picam2, model, directory_path="./"):
         print("Error: Frame not read successfully.")
         return 0, 0, "not found", "not found", "not found"
     shape = frame.shape
-    if red_cone_percent < 50:
+    if percent < 50:
         loc = "not found"
     elif central_x < shape[1] / 3:
         loc = "left"
@@ -80,7 +80,7 @@ if __name__ == '__main__':
         percent, red_cone_percent, loc, original_file_name, annotated_file_name = detect_cone(picam2, model)
         print("percent:", percent, "location:", loc)
         # Goal judgment
-        if red_cone_percent < 10 and loc != "not found":
+        if red_cone_percent > 50 and loc != "not found":
             print("Reach the goal")
             drive.forward()
             time.sleep(2.0)
