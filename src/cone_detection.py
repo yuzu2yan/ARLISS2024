@@ -83,7 +83,7 @@ if __name__ == '__main__':
         percent, red_cone_percent, loc, original_file_name, annotated_file_name = detect_cone(picam2, model)
         print("percent:", percent, "location:", loc)
         # Goal judgment
-        if red_cone_percent < 10:
+        if red_cone_percent < 10 and loc != "not found":
             print("Reach the goal")
             drive.forward()
             time.sleep(2.0)
