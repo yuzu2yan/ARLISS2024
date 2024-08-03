@@ -125,7 +125,7 @@ def main():
                 time.sleep(3)
                 drive.stop()
                 break
-            if cone_loc == "right":
+            elif cone_loc == "right":
                 drive.turn_right()
                 time.sleep(0.2)
             elif cone_loc == "left":
@@ -133,13 +133,14 @@ def main():
                 time.sleep(0.2)
             elif cone_loc == "not found":
                 not_found += 1
+                print("Cone not found")
                 if not_found >= 10:
                     print('Error : Cone not found')
                     drive.stop()
                     phase = 2
                     break
                 pre_ang = ground.cal_heading_ang()[0]
-                while abs(pre_ang - ground.cal_heading_ang()[0]) > 90:
+                while abs(pre_ang - ground.cal_heading_ang()[0]) > 45:
                     drive.turn_right()
                     time.sleep(0.2)
             drive.forward()
