@@ -138,8 +138,8 @@ def main():
                     drive.stop()
                     phase = 2
                     break
-                pre_ang = ground.cal_heading_ang()
-                while abs(pre_ang - ground.cal_heading_ang()) > 45:
+                pre_ang = ground.cal_heading_ang()[0]
+                while abs(pre_ang - ground.cal_heading_ang()[0]) > 45:
                     drive.turn_right()
                     time.sleep(0.5)
             drive.forward()
