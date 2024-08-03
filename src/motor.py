@@ -39,12 +39,12 @@ class Motor(object):
         
     def turn_right(self):
         Motor.pi.set_PWM_dutycycle(FRONT[1], 100) # Left
-        Motor.pi.set_PWM_dutycycle(FRONT[0], 25) # Right
+        Motor.pi.set_PWM_dutycycle(FRONT[0], 35) # Right
         [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
         print("turn right")
     
     def turn_left(self):
-        Motor.pi.set_PWM_dutycycle(FRONT[1], 45) # Left
+        Motor.pi.set_PWM_dutycycle(FRONT[1], 35) # Left
         Motor.pi.set_PWM_dutycycle(FRONT[0], 100) # Right
         [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
         print("turn left")
@@ -54,8 +54,6 @@ class Motor(object):
         self.stop()
         self.back()
         time.sleep(5)
-        self.turn_right()
-        time.sleep(3)
         self.stop()
         print("stuck process end")
         
