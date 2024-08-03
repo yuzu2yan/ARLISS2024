@@ -127,10 +127,10 @@ def main():
                 break
             if cone_loc == "right":
                 drive.turn_right()
-                time.sleep(0.3)
+                time.sleep(0.2)
             elif cone_loc == "left":
                 drive.turn_left()
-                time.sleep(0.3)
+                time.sleep(0.2)
             elif cone_loc == "not found":
                 not_found += 1
                 if not_found >= 10:
@@ -141,9 +141,9 @@ def main():
                 pre_ang = ground.cal_heading_ang()[0]
                 while abs(pre_ang - ground.cal_heading_ang()[0]) > 45:
                     drive.turn_right()
-                    time.sleep(0.5)
+                    time.sleep(0.2)
             drive.forward()
-            time.sleep(3.5)
+            time.sleep(1)
             gps = gnss.read_GPSData()
             var = ground.cal_distance(pre_gps[0], pre_gps[1], gps[0], gps[1])
             if var < 1:
