@@ -13,6 +13,7 @@ import os
 import logger
 import time
 import sys
+import argparse
 import datetime
 import csv
 import yaml
@@ -272,4 +273,7 @@ def main(phase=1):
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='phase input')
+    parser.add_argument('-p', '--phase', type=int, default=1)
+    args = parser.parse_args()
+    main(args.phase)
