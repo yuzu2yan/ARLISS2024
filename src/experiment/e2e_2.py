@@ -144,9 +144,9 @@ def main():
                     time.sleep(0.2)
             drive.forward()
             gps = gnss.read_GPSData()
-            var = ground.cal_distance(pre_gps[0], pre_gps[1], gps[0], gps[1])
-            if var < 1:
-                drive.stuck()
+            # var = ground.cal_distance(pre_gps[0], pre_gps[1], gps[0], gps[1])
+            # if var < 1:
+            #     drive.stuck()
             
     picam2.stop()
 
