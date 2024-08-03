@@ -4,7 +4,7 @@
     
     Author : Yuzu
     Language : Python Ver.3.9.2
-    Last Update : 06/28/2024
+    Last Update : 08/04/2024
     Licence : MIT Licence
 """""""""""""""""""""""""""""""""""
 
@@ -16,15 +16,16 @@ import sys
 import datetime
 import csv
 import yaml
-import cv2
 import gnss
 import motor
 import ground
 import floating
 import cone_detection
+from picamera2 import Picamera2
+from ultralytics import YOLO
 
 
-def main():
+def main(phase=1):
     # Boot System
     print("--------------------SYSTEM START--------------------")
     try:
@@ -32,23 +33,28 @@ def main():
         directory_path = "./../data/" + now.strftime('%Y%m%d %H:%M:%S')
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
-        print("[INFO] Directory created.")
+        print('\033[32m' + "[INFO] Directory created." + '\033[0m')
         error_log = logger.ErrorLogger(directory_path)
-        print("[INFO] Error logger created.")
+        print('\033[32m' + "[INFO] Error logger created." + '\033[0m')
         drive = motor.Motor()
         drive.stop()
-        print("[INFO] Motor activated.")
+        print('\033[32m' + "[INFO] Motor activated." + '\033[0m')
         with open('settings.yaml') as yml:
             settings = yaml.safe_load(yml)
         des = [settings['destination']['longitude'], settings['destination']['latitude']]
         gnss.read_GPSData()
-        print("[INFO] GNSS activated.")
+        print('\033[32m' + "[INFO] GNSS activated." + '\033[0m')
         floating.cal_altitude(0)
-        print("[INFO] Barometric pressure sensor activated.")
+        print('\033[32m' + "[INFO] Barometric pressure sensor activated." + '\033[0m')
         ground.cal_heading_ang()
-        print("[INFO] 9-Axis sensor activated.")
+        print('\033[32m' + "[INFO] 9-Axis sensor activated." + '\033[0m')
+        picam2 = Picamera2()
+        config = picam2.create_preview_configuration()
+        picam2.configure(config)
+        picam2.start()
+        print('\033[32m' + "[INFO] Camera activated." + '\033[0m')
     except FileNotFoundError as e:
-        print("Error : File not found")
+        print('\033[31m' + "[ERROR] File Not Found" + '\033[0m')
         with open('sys_error.csv', 'a') as f:
             now = datetime.datetime.now()
             writer = csv.writer(f)
@@ -56,7 +62,7 @@ def main():
             f.close()
         sys.exit()
     except Exception as e:
-        print("Error : System start failed")
+        print('\033[31m' + "Error : System start failed" + '\033[0m')
         with open('sys_error.csv', 'a') as f:
             now = datetime.datetime.now()
             writer = csv.writer(f)
@@ -76,7 +82,6 @@ def main():
     """
     Floating Phase
     """
-    phase = 1
     if phase == 1:
         print("phase : ", phase)
         floating_log = logger.FloatingLogger(directory_path)
