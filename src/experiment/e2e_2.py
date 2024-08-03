@@ -133,15 +133,15 @@ def main():
                 time.sleep(0.3)
             elif cone_loc == "not found":
                 not_found += 1
+                if not_found >= 10:
+                    print('Error : Cone not found')
+                    drive.stop()
+                    phase = 2
+                    break
                 pre_ang = ground.cal_heading_ang()
                 while abs(pre_ang - ground.cal_heading_ang()) > 45:
                     drive.turn_right()
                     time.sleep(0.5)
-            if not_found >= 10:
-                print('Error : Cone not found')
-                drive.stop()
-                phase = 2
-                break
             drive.forward()
             time.sleep(3.5)
             gps = gnss.read_GPSData()
