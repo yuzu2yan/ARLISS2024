@@ -49,6 +49,8 @@ def main(phase=1):
         print('\033[32m' + "[INFO] Barometric pressure sensor activated." + '\033[0m')
         ground.cal_heading_ang()
         print('\033[32m' + "[INFO] 9-Axis sensor activated." + '\033[0m')
+        model = YOLO('../model/yolo.pt')
+        print('\033[32m' + "[INFO] YOLO model loaded." + '\033[0m')
         picam2 = Picamera2()
         config = picam2.create_preview_configuration()
         picam2.configure(config)
