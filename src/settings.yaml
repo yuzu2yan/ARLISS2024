@@ -11,6 +11,7 @@ threshold:
   orientation: 7 # the number of degrees to consider the robot is facing the goal
 
   # img_proc
+  far_from_goal_distance: 15 # [m]
   red_cone_percent: 30 # [%]
   cone_not_found: 10 # the number of frames to consider the cone is not found
   orientation_ang: 45 # the adjustment angle of the robot to find the cone
