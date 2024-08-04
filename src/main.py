@@ -22,6 +22,7 @@ import motor
 import ground
 import floating
 import cone_detection
+import send_location
 from picamera2 import Picamera2
 from ultralytics import YOLO
 
@@ -97,9 +98,6 @@ def main(phase=1):
         """
         state = 'Rising'
         floating_log.state = 'Rising'
-        start = time.time()
-        # The flag that identifies abnormalities in the barometric pressure sensor
-        error_baro = 0
         init_altitude = 0
         data = floating.cal_altitude(init_altitude)
         init_altitude = data[2]
@@ -113,26 +111,10 @@ def main(phase=1):
             altitude = data[2]
             floating_log.floating_logger(data)
             print("Rising")
-            # Incorrect sensor value
-            if altitude < -5:
-                error_baro += 1
-                if error_baro >= 15:
-                    state = 'Error'
-                    floating_log.state = 'Error'
-                    error_log.baro_error_logger(phase, data)
-                    print("Error : Altitude value decreases during ascent")
-                time.sleep(1.5)
-                continue
             if altitude >= 25:
                 state = 'Ascent Completed'
                 floating_log.state = 'Ascent Completed'
             now = time.time()
-            if now - start > 480:
-                print('8 minutes passed')
-                state = 'Landing'
-                floating_log.state = 'Landing'
-                floating_log.end_of_floating_phase('Landing judgment by passage of time.')
-                break
             print("altitude : {}." .format(altitude))
             time.sleep(1.5)
         while state == 'Ascent Completed':
@@ -144,40 +126,21 @@ def main(phase=1):
                 state = 'Landing'
                 floating_log.state = 'Landing'
                 floating_log.end_of_floating_phase()
-            now = time.time()
-            if now - start > 480:
-                print('8 minutes passed')
-                state = 'Landing'
-                floating_log.state = 'Landing'
-                floating_log.end_of_floating_phase('Landing judgment by passage of time.')
-                break
             print("altitude : {}." .format(altitude))
+            phase = 2
             time.sleep(0.2)
-        while state == 'Error':
-            data = floating.cal_altitude(init_altitude)
-            altitude = data[2]
-            floating_log.floating_logger(data)
-            now = time.time()
-            if now - start > 480:
-                print('8 minutes passed')
-                state = 'Landing'
-                floating_log.state = 'Landing'
-                floating_log.end_of_floating_phase('Landing judgment by passage of time.')
-                break
-            time.sleep(1)
         print("Landing")
         break
 
-
-    drive.separate() # Separation mechanism activated
-    drive.forward()
-    time.sleep(3)
-    drive.stop()
-    reach_goal = False
-    phase = 2
-    ground_log = logger.GroundLogger(directory_path)
-    ground_log.state = 'Normal'
-    img_proc_log = logger.ImgProcLogger(directory_path)
+    if phase == 2 or phase == 3:
+        drive.separate() # Separation mechanism activated
+        drive.forward()
+        time.sleep(3)
+        drive.stop()
+        reach_goal = False
+        ground_log = logger.GroundLogger(directory_path)
+        ground_log.state = 'Normal'
+        img_proc_log = logger.ImgProcLogger(directory_path)
         
 
     while not reach_goal:
