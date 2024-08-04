@@ -52,6 +52,7 @@ def main(phase=1):
         print('\033[32m' + "[INFO] 9-Axis sensor activated." + '\033[0m')
         model = YOLO('../model/yolo.pt')
         print('\033[32m' + "[INFO] YOLO model loaded." + '\033[0m')
+        camera_error = False
         picam2 = Picamera2()
         config = picam2.create_preview_configuration()
         picam2.configure(config)
@@ -191,7 +192,7 @@ def main(phase=1):
         """
         print("phase : ", phase)
         not_found = 0
-        while phase == 3:
+        while phase == 3 and not camera_error:
             drive.slowly_stop()
             time.sleep(3)
             gps = gnss.read_GPSData()
@@ -207,16 +208,15 @@ def main(phase=1):
                 img_proc_log.img_proc_logger(cone_loc, distance, percent, red_cone_percent,original_img_name, ditected_img_name)
                 print("percent:", percent, "distance:", distance, "location:", cone_loc)
             except Exception as e:
-                    print("Error : Image processing failed")
-                    phase = 4
-                    reach_goal = True
-                    with open('sys_error.csv', 'a') as f:
-                        now = datetime.datetime.now()
-                        writer = csv.writer(f)
-                        writer.writerow([now.strftime('%H:%M:%S'), 'Image processing failed', str(e)])
-                        f.close()
-                    drive.stop()
-                    break
+                camera_error = True
+                print("Error : Image processing failed")
+                with open('sys_error.csv', 'a') as f:
+                    now = datetime.datetime.now()
+                    writer = csv.writer(f)
+                    writer.writerow([now.strftime('%H:%M:%S'), 'Image Processing Failed', str(e)])
+                    f.close()
+                drive.stop()
+                break
             # Goal judgment
             if red_cone_percent >= settings['threshold']['red_cone_percent']:
                 print("Reach the goal")
