@@ -153,19 +153,20 @@ def main(phase=1):
                 time.sleep(5)
         while phase == 2:
             gps = gnss.read_GPSData()
+            send_location.send_gps(gps)
             data = ground.is_heading_goal(gps, des)
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
             print("distance : ", distance)
             ground_log.ground_logger(data, distance)
             # Goal judgment
-            if distance <= 13: # Reach the goal within 13m
+            if distance <= settings['threshold']['close_to_goal_distance']: # Reach the goal within 8m
                 print("Close to the goal")
                 ground_log.end_of_ground_phase()
                 phase = 3
                 break
             count = 0
             while data[3] != True: # Not heading the goal
-                if count > 7 or distance <= 13:
+                if count > 7 or distance <= settings['threshold']['close_to_goal_distance']:
                     break
                 if data[4] == 'Turn Right':
                     drive.turn_right()
@@ -174,6 +175,8 @@ def main(phase=1):
                 time.sleep(0.3)
                 drive.forward()
                 gps = gnss.read_GPSData()
+                send_location.send_gps(gps)
+                send_location.send_gps(gps)
                 # The value used to check if the rover is heading towards the goal
                 distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
                 print("distance : ", distance)

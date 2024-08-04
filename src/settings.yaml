@@ -1,3 +1,5 @@
 destination:
   longitude: 130.960005
   latitude: 30.374283333333
+threshold:
+  close_to_goal_distance: 8
