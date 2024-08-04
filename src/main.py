@@ -159,11 +159,16 @@ def main(phase=1):
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
             print("distance : ", distance)
             ground_log.ground_logger(data, distance)
-            # Goal judgment
+            # Close to the goal
             if distance <= settings['threshold']['close_to_goal_distance']: # Reach the goal within 8m
                 print("Close to the goal")
                 ground_log.end_of_ground_phase()
                 phase = 3
+                break
+            if camera_error and distance <= settings['threshold']['camera_error_distance']:
+                print("Reaching the goal")
+                ground_log.end_of_ground_phase()
+                phase = 4
                 break
             count = 0
             while data[3] != True: # Not heading the goal
