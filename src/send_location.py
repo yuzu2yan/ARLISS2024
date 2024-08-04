@@ -12,7 +12,6 @@ def send_gps(gps):
     handle = pi.i2c_open(1, 0x04)
     try:
         while True:
-            gps = gnss.read_GPSData()
             pi.i2c_write_device(handle, str(gps[0]))
             pi.i2c_write_device(handle, str(gps[1]))
             time.sleep(1)
