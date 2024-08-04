@@ -111,7 +111,7 @@ def main(phase=1):
             altitude = data[2]
             floating_log.floating_logger(data)
             print("Rising")
-            if altitude >= 25:
+            if altitude >= settings['threshold']['rised_altitude']:
                 state = 'Ascent Completed'
                 floating_log.state = 'Ascent Completed'
             now = time.time()
@@ -122,7 +122,7 @@ def main(phase=1):
             altitude = data[2]
             floating_log.floating_logger(data)
             print("Falling")
-            if altitude <= 4:
+            if altitude <= settings['threshold']['landed_altitude']:
                 state = 'Landing'
                 floating_log.state = 'Landing'
                 floating_log.end_of_floating_phase()
