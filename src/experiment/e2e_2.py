@@ -97,7 +97,6 @@ def main():
             drive.slowly_stop()
             time.sleep(3)
             gps = gnss.read_GPSData()
-            pre_gps = gps
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
             print("distance : ", distance)
             try:

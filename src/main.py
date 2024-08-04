@@ -4,7 +4,7 @@
     
     Author : Yuzu
     Language : Python Ver.3.9.2
-    Last Update : 08/04/2024
+    Last Update : 08/05/2024
     Licence : MIT Licence
 """""""""""""""""""""""""""""""""""
 
@@ -166,16 +166,15 @@ def main(phase=1):
                 break
             count = 0
             while data[3] != True: # Not heading the goal
-                if count > 7 or distance <= settings['threshold']['close_to_goal_distance']:
+                if count > settings['threshold']['orientation'] or distance <= settings['threshold']['close_to_goal_distance']:
                     break
                 if data[4] == 'Turn Right':
                     drive.turn_right()
                 elif data[4] == 'Turn Left':
                     drive.turn_left()
-                time.sleep(0.3)
+                time.sleep(0.5)
                 drive.forward()
                 gps = gnss.read_GPSData()
-                send_location.send_gps(gps)
                 send_location.send_gps(gps)
                 # The value used to check if the rover is heading towards the goal
                 distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
@@ -192,17 +191,21 @@ def main(phase=1):
         """
         print("phase : ", phase)
         not_found = 0
-        while phase == 3 and cap.isOpened():
-            drive.forward()
+        while phase == 3:
+            drive.slowly_stop()
+            time.sleep(3)
+            gps = gnss.read_GPSData()
+            send_location.send_gps(gps)
+            distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
+            print("distance : ", distance)
             try:
-                percent, distance, cone_loc, ditected_img_name, tof_img_name = cone_detection.detect_cone(cap, inference_size, interpreter, labels, directory_path)
-                img_proc_log.img_proc_logger(cone_loc, distance, percent, ditected_img_name, tof_img_name)
+                percent, red_cone_percent, cone_loc, original_img_name, ditected_img_name = cone_detection.detect_cone(picam2, model, directory_path)
+                img_proc_log.img_proc_logger(cone_loc, distance, percent, red_cone_percent,original_img_name, ditected_img_name)
                 print("percent:", percent, "distance:", distance, "location:", cone_loc)
             except Exception as e:
                     print("Error : Image processing failed")
                     phase = 4
                     reach_goal = True
-                    error_log.img_proc_error_logger(phase, distance=0)
                     with open('sys_error.csv', 'a') as f:
                         now = datetime.datetime.now()
                         writer = csv.writer(f)
@@ -211,7 +214,7 @@ def main(phase=1):
                     drive.stop()
                     break
             # Goal judgment
-            if distance < 0.37:
+            if red_cone_percent >= settings['threshold']['red_cone_percent']:
                 print("Reach the goal")
                 phase = 4
                 reach_goal = True
@@ -220,24 +223,27 @@ def main(phase=1):
                 time.sleep(3)
                 drive.stop()
                 break
-            elif distance < 4:
-                drive.max_dutyrate = 0.65
-            if cone_loc == "right":
+            elif cone_loc == "right":
                 drive.turn_right()
-                time.sleep(0.3)
+                time.sleep(0.2)
             elif cone_loc == "left":
                 drive.turn_left()
-                time.sleep(0.3)
+                time.sleep(0.2)
             elif cone_loc == "not found":
                 not_found += 1
-            if not_found >= 10:
-                print('Error : Cone not found')
-                drive.stop()
-                phase = 2
-                break
+                if not_found >= settings['threshold']['cone_not_found']:
+                    print('Error : Cone not found')
+                    drive.stop()
+                    phase = 2
+                    break
+                pre_ang = ground.cal_heading_ang()[0]
+                while abs(pre_ang - ground.cal_heading_ang()[0]) < settings['threshold']['orientation_ang']:
+                    drive.turn_right()
+                    time.sleep(0.2)
+            drive.forward()
+            gps = gnss.read_GPSData()
             
-
-    cap.release()
+    picam2.stop()
 
 
 if __name__ == '__main__':

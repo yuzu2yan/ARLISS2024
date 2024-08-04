@@ -120,13 +120,6 @@ class ErrorLogger(object):
             writer.writerow(['time', 'phase', 'error description', 'data'])
         f.close()
         
-    def baro_error_logger(self, phase, data):
-        with open(ErrorLogger.filename, 'a') as f:
-            now = datetime.datetime.now()
-            writer = csv.writer(f)
-            writer.writerow([now.strftime('%H:%M:%S'), phase, 'Altitude value decreases during ascent','pressure', data[0], 'temperature', data[1],'altitude', data[2]])
-        f.close()
-        
     def img_proc_error_logger(self, phase, distance=0):
         with open(ErrorLogger.filename, 'a') as f:
             now = datetime.datetime.now()
