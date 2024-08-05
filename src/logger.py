@@ -47,7 +47,7 @@ class GroundLogger(object):
     """
     state Normal
           Stuck
-          Something Wrong
+          Camera Error
     """
     
     def __init__(self, directory_path):
@@ -80,6 +80,7 @@ class ImgProcLogger(object):
                   right
                   left
                   not found
+                  Reach the goal
     """
     def __init__(self, directory_path):
         now = datetime.datetime.now()
@@ -95,7 +96,14 @@ class ImgProcLogger(object):
             now = datetime.datetime.now()
             writer = csv.writer(f)
             writer.writerow([now.strftime('%H:%M:%S'), cone_place, distance, percent, red_cone_percent, original_img_name, ditected_img_name])
-        f.close()    
+        f.close()
+        
+    def not_found_logger(self, distance):
+        with open(ErrorLogger.filename, 'a') as f:
+            now = datetime.datetime.now()
+            writer = csv.writer(f)
+            writer.writerow([now.strftime('%H:%M:%S'), 'not found' , distance, 'Cone not found'])
+        f.close() 
     
     def end_of_img_proc_phase(self):
         with open(ImgProcLogger.filename, 'a') as f:
@@ -126,11 +134,5 @@ class ErrorLogger(object):
             writer = csv.writer(f)
             writer.writerow([now.strftime('%H:%M:%S'), phase, 'distance', distance, 'Image processing failed'])
         f.close()
-        
-    # def not_found_error_logger(self, phase):
-    #     with open(ErrorLogger.filename, 'a') as f:
-    #         now = datetime.datetime.now()
-    #         writer = csv.writer(f)
-    #         writer.writerow([now.strftime('%H:%M:%S'), phase, 'Cone not found', 'img name', img_name, 'processed img name', proc_img_name, 'percentage of cone in img', p, 'not found counter', not_found, 'destination angle', data[0], 'heading angle', data[1],'angle difference', data[2], 'heading goal', data[3], 'direction', data[4], 'longtitude', data[5], 'latitude', data[6], 'previous longtitude', pre_gps[0], 'previous latitude', pre_gps[1], 'magX', data[7], 'magY', data[8], 'magZ', data[9], 'accelX', data[10], 'accelY', data[11], 'accelZ', data[12], 'accel', data[13], 'calib status mag', data[14], 'calib status accel', data[15], 'error geomagnetic sensor', error_mag, 'error heading counter', error_heading])
-    #     f.close()
+    
         

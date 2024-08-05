@@ -195,7 +195,11 @@ def main(phase=1):
             gps = gnss.read_GPSData()
             var = ground.cal_distance(pre_gps[0], pre_gps[1], gps[0], gps[1])
             if var < settings['threshold']['stuck_distance']:
+                data = ground.is_heading_goal(gps, des)
+                ground_log.state = 'Stuck'
+                ground_log.ground_logger(data, distance)
                 drive.stuck()
+                ground_log.state = 'Normal'
 
                 
         """
@@ -221,11 +225,8 @@ def main(phase=1):
             except Exception as e:
                 camera_error = True
                 print("Error : Image processing failed")
-                with open('sys_error.csv', 'a') as f:
-                    now = datetime.datetime.now()
-                    writer = csv.writer(f)
-                    writer.writerow([now.strftime('%H:%M:%S'), 'Image Processing Failed', str(e)])
-                    f.close()
+                error_log.img_proc_error_logger(phase, distance)
+                phase = 2
                 drive.stop()
                 break
             # Goal judgment
@@ -247,7 +248,8 @@ def main(phase=1):
             elif cone_loc == "not found":
                 not_found += 1
                 if not_found >= settings['threshold']['cone_not_found']:
-                    print('Error : Cone not found')
+                    print('Cone not found')
+                    img_proc_log.not_found_logger(distance)
                     drive.stop()
                     phase = 2
                     break
