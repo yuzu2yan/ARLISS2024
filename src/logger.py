@@ -20,7 +20,7 @@ class FloatingLogger(object):
 
     def __init__(self, directory_path):
         now = datetime.datetime.now()
-        FloatingLogger.filename = directory_path + '/' + now.strftime('%Y%m%d %H:%M:%S') + '_floating.csv'
+        FloatingLogger.filename = directory_path + '/' + 'floating.csv'
         with open(FloatingLogger.filename, 'w') as f:
             writer = csv.writer(f)
             writer.writerow([now.strftime('%Y%m%d %H:%M:%S')])
@@ -52,7 +52,7 @@ class GroundLogger(object):
     
     def __init__(self, directory_path):
         now = datetime.datetime.now()
-        GroundLogger.filename = directory_path + '/' + now.strftime('%Y%m%d %H:%M:%S') + '_ground.csv'
+        GroundLogger.filename = directory_path + '/' + 'ground.csv'
         with open(GroundLogger.filename, 'w') as f:
             writer = csv.writer(f)
             writer.writerow([now.strftime('%Y%m%d %H:%M:%S')])
@@ -84,7 +84,7 @@ class ImgProcLogger(object):
     """
     def __init__(self, directory_path):
         now = datetime.datetime.now()
-        ImgProcLogger.filename = directory_path + '/' + now.strftime('%Y%m%d %H:%M:%S') + '_img_proc.csv'
+        ImgProcLogger.filename = directory_path + '/' + 'img_proc.csv'
         with open(ImgProcLogger.filename, 'w') as f:
             writer = csv.writer(f)
             writer.writerow([now.strftime('%Y%m%d %H:%M:%S')])
@@ -121,7 +121,7 @@ class ErrorLogger(object):
     """
     def __init__(self, directory_path):
         now = datetime.datetime.now()
-        ErrorLogger.filename = directory_path + 'error.csv'
+        ErrorLogger.filename = directory_path + '/' + 'error.csv'
         with open(ErrorLogger.filename, 'w') as f:
             writer = csv.writer(f)
             writer.writerow([now.strftime('%Y%m%d %H:%M:%S')])
