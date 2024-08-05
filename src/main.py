@@ -155,6 +155,7 @@ def main(phase=1):
         while phase == 2:
             gps = gnss.read_GPSData()
             send_location.send_gps(gps)
+            pre_gps = gps
             data = ground.is_heading_goal(gps, des)
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
             print("distance : ", distance)
@@ -190,6 +191,11 @@ def main(phase=1):
                 count += 1
             # End of Orientation Correction
             drive.forward()
+            time.sleep(3)
+            gps = gnss.read_GPSData()
+            var = ground.cal_distance(pre_gps[0], pre_gps[1], gps[0], gps[1])
+            if var < settings['threshold']['stuck_distance']:
+                drive.stuck()
 
                 
         """
