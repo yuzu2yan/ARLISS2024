@@ -108,6 +108,9 @@ def main(phase=1):
         print("Rising phase")
     while phase == 1:
         while state == 'Rising':
+            gps = gnss.read_GPSData()
+            send_location.send_gps(gps)
+            
             data = floating.cal_altitude(init_altitude)
             altitude = data[2]
             floating_log.floating_logger(data)
@@ -119,6 +122,9 @@ def main(phase=1):
             print("altitude : {}." .format(altitude))
             time.sleep(1.5)
         while state == 'Ascent Completed':
+            gps = gnss.read_GPSData()
+            send_location.send_gps(gps)
+            
             data = floating.cal_altitude(init_altitude)
             altitude = data[2]
             floating_log.floating_logger(data)
