@@ -46,7 +46,7 @@ def main(phase=1):
         des = [settings['destination']['longitude'], settings['destination']['latitude']]
         gnss.read_GPSData()
         print('\033[32m' + "[INFO] GNSS activated." + '\033[0m')
-        floating.cal_altitude(0)
+        # floating.cal_altitude(0)
         print('\033[32m' + "[INFO] Barometric pressure sensor activated." + '\033[0m')
         ground.cal_heading_ang()
         print('\033[32m' + "[INFO] 9-Axis sensor activated." + '\033[0m')
