@@ -1,10 +1,10 @@
 destination:
-  longitude: 130.960005
-  latitude: 30.374283333333
+  longitude: 139.65396333333334
+  latitude: 35.950535
 threshold:
   # floating
-  rised_altitude: 25 #[m]
-  landed_altitude: 4 #[m]
+  rised_altitude: 5 #[m]
+  landed_altitude: 2 #[m]
 
   # ground
   close_to_goal_distance: 8 #[m]

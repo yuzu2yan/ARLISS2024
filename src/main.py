@@ -125,6 +125,7 @@ def main(phase=1):
             gps = gnss.read_GPSData()
             send_location.send_gps(gps)
             
+            
             data = floating.cal_altitude(init_altitude)
             altitude = data[2]
             floating_log.floating_logger(data)
