@@ -25,6 +25,7 @@ def main():
     """
     drive = motor.Motor()
     drive.stop()
+    drive.separate()
     reach_goal = False
     phase = 2
     now = datetime.datetime.now()
