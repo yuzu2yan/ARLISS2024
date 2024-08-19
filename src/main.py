@@ -4,7 +4,7 @@
     
     Author : Yuzu
     Language : Python Ver.3.9.2
-    Last Update : 08/05/2024
+    Last Update : 08/19/2024
     Licence : MIT Licence
 """""""""""""""""""""""""""""""""""
 
@@ -44,12 +44,6 @@ def main(phase=1):
         with open('settings.yaml') as yml:
             settings = yaml.safe_load(yml)
         des = [settings['destination']['longitude'], settings['destination']['latitude']]
-        gnss.read_GPSData()
-        print('\033[32m' + "[INFO] GNSS activated." + '\033[0m')
-        # floating.cal_altitude(0)
-        print('\033[32m' + "[INFO] Barometric pressure sensor activated." + '\033[0m')
-        ground.cal_heading_ang()
-        print('\033[32m' + "[INFO] 9-Axis sensor activated." + '\033[0m')
         model = YOLO('../model/yolo.pt')
         print('\033[32m' + "[INFO] YOLO model loaded." + '\033[0m')
         camera_error = False
@@ -108,8 +102,8 @@ def main(phase=1):
         print("Rising phase")
     while phase == 1:
         while state == 'Rising':
-            gps = gnss.read_GPSData()
-            send_location.send_gps(gps)
+            # gps = gnss.read_GPSData()
+            # send_location.send_gps(gps)
             
             data = floating.cal_altitude(init_altitude)
             altitude = data[2]
@@ -118,12 +112,11 @@ def main(phase=1):
             if altitude >= settings['threshold']['rised_altitude']:
                 state = 'Ascent Completed'
                 floating_log.state = 'Ascent Completed'
-            now = time.time()
             print("altitude : {}." .format(altitude))
             time.sleep(1.5)
         while state == 'Ascent Completed':
-            gps = gnss.read_GPSData()
-            send_location.send_gps(gps)
+            # gps = gnss.read_GPSData()
+            # send_location.send_gps(gps)
             
             data = floating.cal_altitude(init_altitude)
             altitude = data[2]
