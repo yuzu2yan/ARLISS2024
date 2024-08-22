@@ -11,9 +11,10 @@ def send_gps(gps):
         print("GPS data sent")
         time.sleep(1)
     except Exception as e:
-        pi.i2c_close(handle)
-        pi.stop()        
-    
+        # pi.i2c_close(handle)
+        # pi.stop()        
+        print("Error : ", e)
+
     
 if __name__ == '__main__':
     while True:
