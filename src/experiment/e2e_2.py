@@ -95,6 +95,8 @@ def main():
         cone_loc = "not found"
         print("phase : ", phase)
         not_found = 0
+        drive.slowly_stop()
+        time.sleep(3)
         while phase == 3:
             if cone_loc != "not found":
                 drive.slowly_stop()
@@ -149,6 +151,7 @@ def main():
                 while abs(pre_ang - ground.cal_heading_ang()[0]) < 35:
                     drive.turn_here()
                     time.sleep(0.2)
+                drive.stop()
                 continue
             drive.forward()
             gps = gnss.read_GPSData()
