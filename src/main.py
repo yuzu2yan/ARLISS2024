@@ -96,7 +96,6 @@ def main(phase=1):
         init_altitude = 0
         data = floating.cal_altitude(init_altitude)
         init_altitude = data[2]
-        altitude = init_altitude
         print("initial altitude : {}." .format(init_altitude))
         floating_log.floating_logger(data)
         print("Rising phase")
@@ -127,8 +126,8 @@ def main(phase=1):
                 floating_log.state = 'Landing'
                 floating_log.end_of_floating_phase()
             print("altitude : {}." .format(altitude))
-            phase = 2
             time.sleep(0.2)
+        phase = 2
         print("Landing")
         break
 

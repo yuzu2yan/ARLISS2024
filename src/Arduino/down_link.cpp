@@ -8,7 +8,7 @@ SoftwareSerial IM920Serial(IM920_RX_PIN, IM920_TX_PIN);
 
 void setup() {
   IM920Serial.begin(9600);
-  Wire.begin(0x04);  
+  Wire.begin(0x30);  
   Wire.onReceive(receiveEvent);  
   Serial.begin(9600);  
   IM920Serial.print("ECIO");
