@@ -100,6 +100,10 @@ def main():
             gps = gnss.read_GPSData()
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
             print("distance : ", distance)
+            if distance > 15:
+                print("Error : The distance to the goal is too far")
+                phase = 2
+                break
             try:
                 percent, red_cone_percent, cone_loc, original_img_name, ditected_img_name = cone_detection.detect_cone(picam2, model, directory_path)
                 img_proc_log.img_proc_logger(cone_loc, distance, percent, red_cone_percent,original_img_name, ditected_img_name)
