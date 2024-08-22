@@ -50,10 +50,10 @@ class Motor(object):
         print("turn left")
         
     def turn_here(self):
-        Motor.pi.set_PWM_dutycycle(FRONT[1], 60) # Left
+        Motor.pi.set_PWM_dutycycle(FRONT[1], 20) # Left
         Motor.pi.set_PWM_dutycycle(FRONT[0], 0) # Right
         Motor.pi.set_PWM_dutycycle(REAR[1], 0) # Left
-        Motor.pi.set_PWM_dutycycle(REAR[0], 60) # Right
+        Motor.pi.set_PWM_dutycycle(REAR[0], 20) # Right
         
     def stuck(self):
         print("stuck")
