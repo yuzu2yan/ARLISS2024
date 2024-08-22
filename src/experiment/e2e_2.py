@@ -147,6 +147,7 @@ def main():
                 while abs(pre_ang - ground.cal_heading_ang()[0]) < 45:
                     drive.turn_here()
                     time.sleep(0.2)
+                continue
             drive.forward()
             gps = gnss.read_GPSData()
             # var = ground.cal_distance(pre_gps[0], pre_gps[1], gps[0], gps[1])
