@@ -44,7 +44,7 @@ class Motor(object):
         print("turn right")
     
     def turn_left(self):
-        Motor.pi.set_PWM_dutycycle(FRONT[1], 35) # Left
+        Motor.pi.set_PWM_dutycycle(FRONT[1], 25) # Left
         Motor.pi.set_PWM_dutycycle(FRONT[0], 100) # Right
         [Motor.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
         print("turn left")
