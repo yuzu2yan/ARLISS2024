@@ -116,7 +116,7 @@ def main():
                     drive.stop()
                     break
             # Goal judgment
-            if red_cone_percent >= 30:
+            if red_cone_percent >= 30 and percent >= 50:
                 print("Reach the goal")
                 phase = 4
                 reach_goal = True
