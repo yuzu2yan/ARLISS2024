@@ -134,7 +134,6 @@ def main(phase=1):
     if phase == 2 or phase == 3:
         drive.separate() # Separation mechanism activated
         drive.forward()
-        time.sleep(3)
         drive.stop()
         reach_goal = False
         ground_log = logger.GroundLogger(directory_path)
