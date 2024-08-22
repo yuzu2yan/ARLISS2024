@@ -4,7 +4,7 @@ import time
 
 def send_gps(gps):
     pi = pigpio.pi()
-    handle = pi.i2c_open(1, 0x04)
+    handle = pi.i2c_open(1, 0x30)
     try:
         pi.i2c_write_device(handle, str(gps[0]))
         pi.i2c_write_device(handle, str(gps[1]))
