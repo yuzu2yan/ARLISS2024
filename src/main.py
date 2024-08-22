@@ -202,11 +202,15 @@ def main(phase=1):
         """
         Image Processing Phase
         """
+        cone_loc = "not found"
         print("phase : ", phase)
         not_found = 0
+        drive.slowly_stop()
+        time.sleep(3)
         while phase == 3 and not camera_error:
-            drive.slowly_stop()
-            time.sleep(3)
+            if cone_loc != "not found":
+                drive.slowly_stop()
+                time.sleep(3)
             gps = gnss.read_GPSData()
             send_location.send_gps(gps)
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
@@ -227,7 +231,7 @@ def main(phase=1):
                 drive.stop()
                 break
             # Goal judgment
-            if red_cone_percent >= settings['threshold']['red_cone_percent']:
+            if red_cone_percent >= settings['threshold']['red_cone_percent'] and percent >= settings['threshold']['cone_percent']:
                 print("Reach the goal")
                 phase = 4
                 reach_goal = True
@@ -252,8 +256,10 @@ def main(phase=1):
                     break
                 pre_ang = ground.cal_heading_ang()[0]
                 while abs(pre_ang - ground.cal_heading_ang()[0]) < settings['threshold']['orientation_ang']:
-                    drive.turn_right()
+                    drive.turn_here()
                     time.sleep(0.2)
+                    drive.stop()
+                    continue
             drive.forward()
             gps = gnss.read_GPSData()
             

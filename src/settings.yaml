@@ -14,7 +14,8 @@ threshold:
 
   # img_proc
   far_from_goal_distance: 15 # [m]
+  cone_percent: 50 # [%]
   red_cone_percent: 30 # [%]
   cone_not_found: 10 # the number of frames to consider the cone is not found
-  orientation_ang: 45 # the adjustment angle of the robot to find the cone
+  orientation_ang: 35 # the adjustment angle of the robot to find the cone
 
