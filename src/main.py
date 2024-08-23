@@ -237,7 +237,7 @@ def main(phase=1):
                 reach_goal = True
                 img_proc_log.end_of_img_proc_phase()
                 drive.forward()
-                time.sleep(3)
+                time.sleep(1)
                 drive.stop()
                 break
             elif cone_loc == "right":
