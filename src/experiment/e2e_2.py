@@ -5,8 +5,7 @@ sys.path.append('./../')
 import logger
 import datetime
 import csv
-import yaml
-import cv2
+import pigpio
 import gnss
 import motor
 import ground
@@ -23,7 +22,8 @@ def main():
           3 : Image Processing
           4 : Reach the goal
     """
-    drive = motor.Motor()
+    pi = pigpio.pi()
+    drive = motor.Motor(pi)
     drive.stop()
     drive.separate()
     reach_goal = False
