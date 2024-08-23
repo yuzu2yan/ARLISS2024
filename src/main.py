@@ -25,6 +25,7 @@ import cone_detection
 import send_location
 from picamera2 import Picamera2
 from ultralytics import YOLO
+import pigpio
 
 
 def main(phase=1):
@@ -38,7 +39,8 @@ def main(phase=1):
         print('\033[32m' + "[INFO] Directory created." + '\033[0m')
         error_log = logger.ErrorLogger(directory_path)
         print('\033[32m' + "[INFO] Error logger created." + '\033[0m')
-        drive = motor.Motor()
+        pi = pigpio.pi()
+        drive = motor.Motor(pi)
         drive.stop()
         print('\033[32m' + "[INFO] Motor activated." + '\033[0m')
         with open('settings.yaml') as yml:
