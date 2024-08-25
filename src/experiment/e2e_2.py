@@ -152,9 +152,8 @@ def main():
                     drive.turn_here()
                     time.sleep(0.2)
                 drive.stop()
-                continue
-            drive.forward()
-            gps = gnss.read_GPSData()
+            # drive.forward()
+            # gps = gnss.read_GPSData()
             # var = ground.cal_distance(pre_gps[0], pre_gps[1], gps[0], gps[1])
             # if var < 1:
             #     drive.stuck()
