@@ -261,9 +261,9 @@ def main(phase=1):
                     drive.turn_here()
                     time.sleep(0.2)
                     drive.stop()
-                    continue
-            drive.forward()
-            gps = gnss.read_GPSData()
+                    # continue
+            # drive.forward()
+            # gps = gnss.read_GPSData()
             
     picam2.stop()
 
