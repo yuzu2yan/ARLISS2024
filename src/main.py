@@ -4,7 +4,7 @@
     
     Author : Yuzu
     Language : Python Ver.3.9.2
-    Last Update : 08/19/2024
+    Last Update : 08/25/2024
     Licence : MIT Licence
 """""""""""""""""""""""""""""""""""
 
