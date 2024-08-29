@@ -4,7 +4,7 @@
     
     Author : Yuzu
     Language : Python Ver.3.9.2
-    Last Update : 08/25/2024
+    Last Update : 08/27/2024
     Licence : MIT Licence
 """""""""""""""""""""""""""""""""""
 
@@ -20,7 +20,7 @@ import yaml
 import gnss
 import motor
 import ground
-# import floating
+import floating
 import cone_detection
 import send_location
 from picamera2 import Picamera2
@@ -116,8 +116,8 @@ def main(phase=1):
             print("altitude : {}." .format(altitude))
             time.sleep(1.5)
         while state == 'Ascent Completed':
-            # gps = gnss.read_GPSData()
-            # send_location.send_gps(gps)
+            gps = gnss.read_GPSData()
+            send_location.send_gps(gps)
             
             data = floating.cal_altitude(init_altitude)
             altitude = data[2]
@@ -131,6 +131,7 @@ def main(phase=1):
             time.sleep(0.2)
         phase = 2
         print("Landing")
+        time.sleep(settings['threshold']['wait_time'])
         break
 
     if phase == 2 or phase == 3:

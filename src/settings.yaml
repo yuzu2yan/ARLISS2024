@@ -5,6 +5,7 @@ threshold:
   # floating
   rised_altitude: 3 #[m]
   landed_altitude: 2 #[m]
+  wait_time: 5 #[s]
 
   # ground
   close_to_goal_distance: 8 #[m]
@@ -17,5 +18,5 @@ threshold:
   cone_percent: 50 # [%]
   red_cone_percent: 30 # [%]
   cone_not_found: 10 # the number of frames to consider the cone is not found
-  orientation_ang: 35 # the adjustment angle of the robot to find the cone
+  orientation_ang: 30 # the adjustment angle of the robot to find the cone
 
