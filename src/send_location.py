@@ -18,9 +18,9 @@ if __name__ == '__main__':
     pi = pigpio.pi()
     while True:
         gps = gnss.read_GPSData()
-        if gps == [0,0]:
-            print("Waiting for GPS reception")
-            time.sleep(5)
-            continue
+        # if gps == [0,0]:
+        #     print("Waiting for GPS reception")
+        #     time.sleep(5)
+        #     continue
         print("GPS data : ", gps)    
         send_gps(gps, pi)
