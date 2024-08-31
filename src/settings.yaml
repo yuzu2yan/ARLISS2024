@@ -3,8 +3,8 @@ destination:
   latitude: 35.950905
 threshold:
   # floating
-  rised_altitude: 3 #[m]
-  landed_altitude: 2 #[m]
+  rised_altitude: 5 #[m]
+  landed_altitude: 1 #[m]
   wait_time: 10 #[s]
 
   # ground
