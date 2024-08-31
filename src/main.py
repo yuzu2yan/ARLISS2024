@@ -179,7 +179,7 @@ def main(phase=1):
                     drive.turn_right()
                 elif data[4] == 'Turn Left':
                     drive.turn_left()
-                time.sleep(0.5)
+                time.sleep(1)
                 drive.forward()
                 gps = gnss.read_GPSData()
                 send_location.send_gps(gps, pi)
@@ -209,7 +209,7 @@ def main(phase=1):
         print("phase : ", phase)
         not_found = 0
         drive.slowly_stop()
-        time.sleep(3)
+        time.sleep(6)
         while phase == 3 and not camera_error:
             if cone_loc != "not found":
                 drive.slowly_stop()
@@ -240,7 +240,7 @@ def main(phase=1):
                 reach_goal = True
                 img_proc_log.end_of_img_proc_phase()
                 drive.forward()
-                time.sleep(1)
+                time.sleep(6)
                 drive.stop()
                 break
             elif cone_loc == "right":
@@ -258,8 +258,9 @@ def main(phase=1):
                     phase = 2
                     break
                 pre_ang = ground.cal_heading_ang()[0]
-                drive.turn_here()
-                time.sleep(1)
+                while (abs(pre_ang - ground.cal_heading_ang()[0]) < settings['threshold']['orientation_ang']):
+                    drive.turn_here()
+                    time.sleep(0.1)
                 drive.stop()
                 # continue
             # drive.forward()
