@@ -2,8 +2,8 @@ import pigpio
 import time
 
 # pigpio library : https://abyz.me.uk/rpi/pigpio/python.html
-FRONT = [27, 13]  # Left, Right
-REAR = [17, 19]   # Left, Right
+FRONT = [13, 27]  # Left, Right
+REAR = [19, 17]   # Left, Right
 SEPA_FIN = 9
 SEPA_RIN = 10
 PINS = FRONT + REAR + [SEPA_FIN, SEPA_RIN]
@@ -39,7 +39,7 @@ class Motor(object):
 
     def turn_right(self):
         self.pi.set_PWM_dutycycle(FRONT[1], 100)  # Left
-        self.pi.set_PWM_dutycycle(FRONT[0], 35)   # Right
+        self.pi.set_PWM_dutycycle(FRONT[0], 25)   # Right
         [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
         print("turn right")
 
