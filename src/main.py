@@ -117,7 +117,7 @@ def main(phase=1):
             time.sleep(1.5)
         while state == 'Ascent Completed':
             gps = gnss.read_GPSData()
-            send_location.send_gps(gps)
+            send_location.send_gps(gps, pi)
             
             data = floating.cal_altitude(init_altitude)
             altitude = data[2]
