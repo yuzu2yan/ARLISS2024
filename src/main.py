@@ -136,7 +136,6 @@ def main(phase=1):
 
     if phase == 2 or phase == 3:
         drive.separate() # Separation mechanism activated
-        drive.forward()
         drive.stop()
         reach_goal = False
         ground_log = logger.GroundLogger(directory_path)
@@ -245,10 +244,10 @@ def main(phase=1):
                 break
             elif cone_loc == "right":
                 drive.turn_right()
-                time.sleep(0.1)
+                time.sleep(0.5)
             elif cone_loc == "left":
                 drive.turn_left()
-                time.sleep(0.1)
+                time.sleep(0.5)
             elif cone_loc == "not found":
                 not_found += 1
                 if not_found >= settings['threshold']['cone_not_found']:
