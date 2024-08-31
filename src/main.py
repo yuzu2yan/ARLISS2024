@@ -258,11 +258,10 @@ def main(phase=1):
                     phase = 2
                     break
                 pre_ang = ground.cal_heading_ang()[0]
-                while abs(pre_ang - ground.cal_heading_ang()[0]) < settings['threshold']['orientation_ang']:
-                    drive.turn_here()
-                    time.sleep(0.2)
-                    drive.stop()
-                    # continue
+                drive.turn_here()
+                time.sleep(1)
+                drive.stop()
+                # continue
             # drive.forward()
             # gps = gnss.read_GPSData()
             
