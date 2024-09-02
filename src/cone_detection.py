@@ -53,7 +53,7 @@ def detect_cone(picam2, model, directory_path="./"):
         print("Error: Frame not read successfully.")
         return 0, 0, "not found", "not found", "not found"
     shape = frame.shape
-    if percent < 50:
+    if percent < 40:
         loc = "not found"
     elif central_x < 35:
         loc = "left"

@@ -54,6 +54,7 @@ def main(phase=1):
         picam2.configure(config)
         picam2.start()
         print('\033[32m' + "[INFO] Camera activated." + '\033[0m')
+        print("--------------------SYSTEM ALL GREEN--------------------")
     except FileNotFoundError as e:
         print('\033[31m' + "[ERROR] File Not Found" + '\033[0m')
         with open('sys_error.csv', 'a') as f:
@@ -70,7 +71,6 @@ def main(phase=1):
             writer.writerow([now.strftime('%H:%M:%S'), 'Boot System Failed', str(e)])
             f.close()
         sys.exit()
-    print("--------------------SYSTEM ALL GREEN--------------------")
 
     """
     phase 1 : Floating
