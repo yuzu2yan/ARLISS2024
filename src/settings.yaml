@@ -10,7 +10,7 @@ threshold:
   # ground
   close_to_goal_distance: 8 #[m]
   orientation: 7 # the number of degrees to consider the robot is facing the goal
-  stuck_distance: 0.8 # [m]
+  stuck_distance: 0.7 # [m]
   camera_error_distance: 0.5 # [m]
 
   # img_proc

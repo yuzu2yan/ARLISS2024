@@ -193,7 +193,7 @@ def main(phase=1):
             time.sleep(3)
             gps = gnss.read_GPSData()
             var = ground.cal_distance(pre_gps[0], pre_gps[1], gps[0], gps[1])
-            if var < settings['threshold']['stuck_distance']:
+            if var != 0.0 and var < settings['threshold']['stuck_distance']:
                 data = ground.is_heading_goal(gps, des)
                 ground_log.state = 'Stuck'
                 ground_log.ground_logger(data, distance)
