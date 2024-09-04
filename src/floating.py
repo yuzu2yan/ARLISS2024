@@ -1,6 +1,7 @@
 import bme280
 import motor
 import time
+import pigpio
 
 SEA_LEVEL_PRESSURE = 1013.25
 
@@ -18,7 +19,8 @@ def cal_altitude(init_altitude):
     return data
 
 if __name__ == '__main__':
-    drive = motor.Motor()
+    pi = pigpio.pi()
+    drive = motor.Motor(pi)
     state = 'Rising'
     data = cal_altitude(0)
     init_altitude = data[2]
