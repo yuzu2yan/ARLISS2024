@@ -1,6 +1,6 @@
 destination:
-  longitude: 139.65347666666668
-  latitude: 35.95018
+  longitude: 139.65383
+  latitude: 35.95090833333333
 threshold:
   # floating
   rised_altitude: 5 #[m]
