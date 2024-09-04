@@ -178,7 +178,7 @@ def main(phase=1):
                     drive.turn_right()
                 elif data[4] == 'Turn Left':
                     drive.turn_left()
-                time.sleep(0.5)
+                time.sleep(1)
                 drive.forward()
                 gps = gnss.read_GPSData()
                 send_location.send_gps(gps, pi)
@@ -190,7 +190,7 @@ def main(phase=1):
                 count += 1
             # End of Orientation Correction
             drive.forward()
-            time.sleep(1)
+            time.sleep(3)
             gps = gnss.read_GPSData()
             var = ground.cal_distance(pre_gps[0], pre_gps[1], gps[0], gps[1])
             if var < settings['threshold']['stuck_distance']:
@@ -244,10 +244,10 @@ def main(phase=1):
                 break
             elif cone_loc == "right":
                 drive.turn_right()
-                time.sleep(0.3)
+                time.sleep(1)
             elif cone_loc == "left":
                 drive.turn_left()
-                time.sleep(0.3)
+                time.sleep(1)
             elif cone_loc == "not found":
                 not_found += 1
                 if not_found >= settings['threshold']['cone_not_found']:
