@@ -243,9 +243,11 @@ def main(phase=1):
                 drive.stop()
                 break
             elif cone_loc == "right":
+                not_found = 0
                 drive.turn_right()
                 time.sleep(1)
             elif cone_loc == "left":
+                not_found = 0
                 drive.turn_left()
                 time.sleep(1)
             elif cone_loc == "not found":
