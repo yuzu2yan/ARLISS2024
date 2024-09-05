@@ -275,6 +275,8 @@ def main(phase=1):
                     drive.turn_here()
                     time.sleep(0.1)
                 drive.stop()
+            else:
+                not_found = 0
                 # continue
             # drive.forward()
             # gps = gnss.read_GPSData()
