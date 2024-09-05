@@ -2,10 +2,10 @@ import pigpio
 import time
 
 # pigpio library : https://abyz.me.uk/rpi/pigpio/python.html
-FRONT = [13, 17]  # Left, Right 30rpm 13, 27
-REAR = [19, 27]   # Left, Right 30rpm 19, 17
-SEPA_FIN = 10 # 30rpm 10
-SEPA_RIN = 9 # 30rpm 9
+FRONT = [19, 27]  # Left, Right 30rpm 13, 27
+REAR = [13, 17]   # Left, Right 30rpm 19, 17
+SEPA_FIN = 9 # 30rpm 10
+SEPA_RIN = 10 # 30rpm 9
 PINS = FRONT + REAR + [SEPA_FIN, SEPA_RIN]
 
 class Motor(object):
