@@ -118,8 +118,10 @@ def main(phase=1):
             time.sleep(1.5)
         while state == 'Ascent Completed':
             gps = gnss.read_GPSData()
-            send_location.send_gps(gps, pi, handle)
-            
+            try:
+                send_location.send_gps(gps, pi, handle)
+            except Exception as e:
+                print("Error : ", e)
             data = floating.cal_altitude(init_altitude)
             altitude = data[2]
             floating_log.floating_logger(data)
@@ -154,7 +156,10 @@ def main(phase=1):
                 time.sleep(5)
         while phase == 2:
             gps = gnss.read_GPSData()
-            send_location.send_gps(gps, pi, handle)
+            try:
+                send_location.send_gps(gps, pi, handle)
+            except Exception as e:
+                print("Error : ", e)
             pre_gps = gps
             data = ground.is_heading_goal(gps, des)
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
@@ -182,7 +187,10 @@ def main(phase=1):
                 time.sleep(1)
                 drive.forward()
                 gps = gnss.read_GPSData()
-                send_location.send_gps(gps, pi, handle)
+                try:
+                    send_location.send_gps(gps, pi, handle)
+                except Exception as e:
+                    print("Error : ", e)
                 # The value used to check if the rover is heading towards the goal
                 distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
                 print("distance : ", distance)
@@ -215,7 +223,10 @@ def main(phase=1):
                 drive.slowly_stop()
                 time.sleep(3)
             gps = gnss.read_GPSData()
-            send_location.send_gps(gps, pi, handle)
+            try:
+                send_location.send_gps(gps, pi, handle)
+            except Exception as e:
+                print("Error : ", e)
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
             print("distance : ", distance)
             if distance >= settings['threshold']['far_from_goal_distance']:
