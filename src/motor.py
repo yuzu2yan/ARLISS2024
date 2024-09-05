@@ -17,7 +17,8 @@ class Motor(object):
             self.pi.set_PWM_range(pin, 100)
 
     def forward(self):
-        [self.pi.set_PWM_dutycycle(pin, 100) for pin in FRONT]
+        self.pi.set_PWM_dutycycle(FRONT[1], 100)  #
+        self.pi.set_PWM_dutycycle(FRONT[0], 95)   
         [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
         print("forward")
 
@@ -39,7 +40,7 @@ class Motor(object):
 
     def turn_right(self):
         self.pi.set_PWM_dutycycle(FRONT[1], 100)  # Left
-        self.pi.set_PWM_dutycycle(FRONT[0], 70)   # Right 25
+        self.pi.set_PWM_dutycycle(FRONT[0], 80)   # Right 25
         [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
         print("turn right")
 

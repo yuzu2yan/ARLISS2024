@@ -188,7 +188,7 @@ def main(phase=1):
                     drive.turn_right()
                 elif data[4] == 'Turn Left':
                     drive.turn_left()
-                time.sleep(1)
+                time.sleep(0.5) # rpm 100 0.5 30 1
                 drive.forward()
                 gps = gnss.read_GPSData()
                 try:
@@ -279,12 +279,16 @@ def main(phase=1):
                     phase = 2
                     break
                 pre_ang = ground.cal_heading_ang()[0]
-                while (abs(pre_ang - ground.cal_heading_ang()[0]) < settings['threshold']['orientation_ang']):
-                    drive.turn_here()
-                    time.sleep(0.1)
+                # while (abs(pre_ang - ground.cal_heading_ang()[0]) < settings['threshold']['orientation_ang']):
+                #     drive.turn_here()
+                #     time.sleep(0.1)
+                # rpm 100
+                drive.turn_here()
+                time.sleep(1.5)
                 drive.stop()
             else: # front
                 not_found = 0
+                drive.forward() # rpm 100
                 # continue
             # drive.forward()
             # gps = gnss.read_GPSData()
