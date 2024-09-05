@@ -223,7 +223,7 @@ def main(phase=1):
         print("phase : ", phase)
         not_found = 0
         drive.slowly_stop()
-        time.sleep(6)
+        time.sleep(2)
         while phase == 3 and not camera_error:
             if cone_loc != "not found":
                 drive.slowly_stop()
