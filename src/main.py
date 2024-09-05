@@ -40,6 +40,7 @@ def main(phase=1):
         error_log = logger.ErrorLogger(directory_path)
         print('\033[32m' + "[INFO] Error logger created." + '\033[0m')
         pi = pigpio.pi()
+        handle = pi.i2c_open(1, 0x30)
         drive = motor.Motor(pi)
         drive.stop()
         print('\033[32m' + "[INFO] Motor activated." + '\033[0m')
@@ -117,7 +118,7 @@ def main(phase=1):
             time.sleep(1.5)
         while state == 'Ascent Completed':
             gps = gnss.read_GPSData()
-            send_location.send_gps(gps, pi)
+            send_location.send_gps(gps, pi, handle)
             
             data = floating.cal_altitude(init_altitude)
             altitude = data[2]
@@ -153,7 +154,7 @@ def main(phase=1):
                 time.sleep(5)
         while phase == 2:
             gps = gnss.read_GPSData()
-            send_location.send_gps(gps, pi)
+            send_location.send_gps(gps, pi, handle)
             pre_gps = gps
             data = ground.is_heading_goal(gps, des)
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
@@ -181,7 +182,7 @@ def main(phase=1):
                 time.sleep(1)
                 drive.forward()
                 gps = gnss.read_GPSData()
-                send_location.send_gps(gps, pi)
+                send_location.send_gps(gps, pi, handle)
                 # The value used to check if the rover is heading towards the goal
                 distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
                 print("distance : ", distance)
@@ -214,7 +215,7 @@ def main(phase=1):
                 drive.slowly_stop()
                 time.sleep(3)
             gps = gnss.read_GPSData()
-            send_location.send_gps(gps, pi)
+            send_location.send_gps(gps, pi, handle)
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
             print("distance : ", distance)
             if distance >= settings['threshold']['far_from_goal_distance']:

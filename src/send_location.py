@@ -2,8 +2,7 @@ import gnss
 import pigpio
 import time
 
-def send_gps(gps, pi):
-    handle = pi.i2c_open(1, 0x30)
+def send_gps(gps, pi, handle):
     try:
         pi.i2c_write_device(handle, str(gps[0]))
         pi.i2c_write_device(handle, str(gps[1]))
@@ -12,11 +11,11 @@ def send_gps(gps, pi):
         pi.i2c_close(handle)
         # pi.stop()        
         print("Error : ", e)
-    pi.i2c_close(handle)
 
     
 if __name__ == '__main__':
     pi = pigpio.pi()
+    handle = pi.i2c_open(1, 0x30)
     while True:
         gps = gnss.read_GPSData()
         # if gps == [0,0]:
@@ -24,4 +23,5 @@ if __name__ == '__main__':
         #     time.sleep(5)
         #     continue
         print("GPS data : ", gps)    
-        send_gps(gps, pi)
+        send_gps(gps, pi, handle)
+    pi.i2c_close(handle)
