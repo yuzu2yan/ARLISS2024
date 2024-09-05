@@ -14,7 +14,7 @@ threshold:
   camera_error_distance: 0.5 # [m]
 
   # img_proc
-  far_from_goal_distance: 15 # [m]
+  far_from_goal_distance: 20 # [m]
   cone_percent: 40 # [%]
   red_cone_percent: 30 # [%]
   cone_not_found: 10 # the number of frames to consider the cone is not found
