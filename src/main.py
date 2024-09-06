@@ -166,7 +166,7 @@ def main(phase=1):
                 handle = pi.i2c_open(1, 0x30)
             pre_gps = gps
             data = ground.is_heading_goal(gps, des)
-            distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
+            distance = ground.cal_dislstance(gps[0], gps[1], des[0], des[1])
             print("distance : ", distance)
             ground_log.ground_logger(data, distance)
             # Close to the goal

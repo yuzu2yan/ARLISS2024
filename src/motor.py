@@ -33,7 +33,9 @@ class Motor(object):
 
     def slowly_stop(self):
         for i in range(100, 0, -1):
-            [self.pi.set_PWM_dutycycle(pin, i) for pin in FRONT]
+            self.pi.set_PWM_dutycycle(FRONT[1], i) 
+            if i > 5: 
+                self.pi.set_PWM_dutycycle(FRONT[0], i-5)
             [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
             time.sleep(0.02) # 0.06
         print("slowly stop")
