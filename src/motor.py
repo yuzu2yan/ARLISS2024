@@ -24,7 +24,7 @@ class Motor(object):
         
     def forward_slow(self):
         self.pi.set_PWM_dutycycle(FRONT[1], 50)
-        self.pi.set_PWM_dutycycle(FRONT[0], 10)
+        self.pi.set_PWM_dutycycle(FRONT[0], 8)
         [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
 
     def back(self):
