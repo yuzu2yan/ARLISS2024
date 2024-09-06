@@ -4,7 +4,7 @@
     
     Author : Yuzu
     Language : Python Ver.3.9.2
-    Last Update : 08/27/2024
+    Last Update : 09/06/2024
     Licence : MIT Licence
 """""""""""""""""""""""""""""""""""
 
@@ -294,9 +294,6 @@ def main(phase=1):
                 drive.stop()
             else: # front
                 not_found = 0
-                # continue
-            # drive.forward()
-            # gps = gnss.read_GPSData()
             
     picam2.stop()
 
