@@ -21,6 +21,11 @@ class Motor(object):
         self.pi.set_PWM_dutycycle(FRONT[0], 95)   
         [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
         print("forward")
+        
+    def forward_slow(self):
+        self.pi.set_PWM_dutycycle(FRONT[1], 50)
+        self.pi.set_PWM_dutycycle(FRONT[0], 45)
+        [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
 
     def back(self):
         [self.pi.set_PWM_dutycycle(pin, 0) for pin in FRONT]
@@ -91,7 +96,8 @@ if __name__ == '__main__':
         'para': drive.attach_para,
         'stuck': drive.stuck,
         'sl': drive.slowly_stop,
-        'th': drive.turn_here
+        'th': drive.turn_here,
+        'fs': drive.forward_slow
     }
     while True:
         c = input('Enter char : ')
