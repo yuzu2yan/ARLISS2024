@@ -48,18 +48,35 @@ class Motor(object):
         self.pi.set_PWM_dutycycle(FRONT[0], 80)   # Right 25
         [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
         print("turn right")
+        
+    def turn_right_slow(self):
+        self.pi.set_PWM_dutycycle(FRONT[1], 50)
+        self.pi.set_PWM_dutycycle(FRONT[0], 5)
+        [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
 
     def turn_left(self):
         self.pi.set_PWM_dutycycle(FRONT[1], 90)  # Left # 25
         self.pi.set_PWM_dutycycle(FRONT[0], 100) # Right
         [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
         print("turn left")
+        
+    def turn_left_slow(self):
+        self.pi.set_PWM_dutycycle(FRONT[1], 50)
+        self.pi.set_PWM_dutycycle(FRONT[0], 50)
+        [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
 
     def turn_here(self):
-        self.pi.set_PWM_dutycycle(FRONT[1], 15)  # Left 35
-        self.pi.set_PWM_dutycycle(FRONT[0], 0)   # Right
-        self.pi.set_PWM_dutycycle(REAR[1], 0)    # Left
-        self.pi.set_PWM_dutycycle(REAR[0], 15)   # Right
+        # self.pi.set_PWM_dutycycle(FRONT[1], 15)  # Left 35
+        # self.pi.set_PWM_dutycycle(FRONT[0], 0)   # Right
+        # self.pi.set_PWM_dutycycle(REAR[1], 0)    # Left
+        # self.pi.set_PWM_dutycycle(REAR[0], 15)   # Right
+        
+        # 100rpm
+        self.pi.set_PWM_dutycycle(FRONT[1], 0)  # Left 35
+        self.pi.set_PWM_dutycycle(FRONT[0], 15)   # Right
+        self.pi.set_PWM_dutycycle(REAR[1], 15)    # Left
+        self.pi.set_PWM_dutycycle(REAR[0], 0)   # Right
+
 
     def stuck(self):
         print("stuck")

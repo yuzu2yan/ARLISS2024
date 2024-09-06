@@ -263,7 +263,7 @@ def main(phase=1):
                 reach_goal = True
                 img_proc_log.end_of_img_proc_phase()
                 drive.forward()
-                time.sleep(6)
+                time.sleep(3) ## 6
                 drive.stop()
                 break
             elif cone_loc == "right":
@@ -288,7 +288,7 @@ def main(phase=1):
                 #     time.sleep(0.1)
                 # rpm 100
                 drive.turn_here()
-                time.sleep(1.5)
+                time.sleep(0.5)
                 drive.stop()
             else: # front
                 not_found = 0
