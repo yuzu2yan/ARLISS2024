@@ -2,10 +2,10 @@ import pigpio
 import time
 
 # pigpio library : https://abyz.me.uk/rpi/pigpio/python.html
-FRONT = [9, 19]  # Left, Right 30rpm 13, 27
-REAR = [10, 13]   # Left, Right 30rpm 19, 17
-SEPA_FIN = 27 # 30rpm 10
-SEPA_RIN = 17 # 30rpm 9
+FRONT = [13, 27]  # Left, Right 30rpm 13, 27 100rpm 9, 19
+REAR = [19, 17]   # Left, Right 30rpm 19, 17 100rpm 10, 13
+SEPA_FIN = 10 # 30rpm 10 100rpm 27
+SEPA_RIN = 9 # 30rpm 9 100rpm 17
 PINS = FRONT + REAR + [SEPA_FIN, SEPA_RIN]
 
 class Motor(object):
@@ -40,7 +40,7 @@ class Motor(object):
         for i in range(100, 0, -1):
             [self.pi.set_PWM_dutycycle(pin, i) for pin in FRONT]
             [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
-            time.sleep(0.02) # 0.06
+            time.sleep(0.06)
         print("slowly stop")
 
     def turn_right(self):
@@ -66,16 +66,17 @@ class Motor(object):
         [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
 
     def turn_here(self):
-        # self.pi.set_PWM_dutycycle(FRONT[1], 15)  # Left 35
-        # self.pi.set_PWM_dutycycle(FRONT[0], 0)   # Right
-        # self.pi.set_PWM_dutycycle(REAR[1], 0)    # Left
-        # self.pi.set_PWM_dutycycle(REAR[0], 15)   # Right
+        # 30rpm
+        self.pi.set_PWM_dutycycle(FRONT[1], 15)  # Left 35
+        self.pi.set_PWM_dutycycle(FRONT[0], 0)   # Right
+        self.pi.set_PWM_dutycycle(REAR[1], 0)    # Left
+        self.pi.set_PWM_dutycycle(REAR[0], 15)   # Right
         
-        # 100rpm
-        self.pi.set_PWM_dutycycle(FRONT[1], 0)  # Left 35
-        self.pi.set_PWM_dutycycle(FRONT[0], 15)   # Right
-        self.pi.set_PWM_dutycycle(REAR[1], 15)    # Left
-        self.pi.set_PWM_dutycycle(REAR[0], 0)   # Right
+        # # 100rpm
+        # self.pi.set_PWM_dutycycle(FRONT[1], 0)  # Left 35
+        # self.pi.set_PWM_dutycycle(FRONT[0], 15)   # Right
+        # self.pi.set_PWM_dutycycle(REAR[1], 15)    # Left
+        # self.pi.set_PWM_dutycycle(REAR[0], 0)   # Right
 
 
     def stuck(self):
