@@ -87,7 +87,7 @@ class Motor(object):
         print("stuck process end")
 
     def separate(self):
-        self.pi.set_PWM_dutycycle(SEPA_FIN, 50) 
+        self.pi.set_PWM_dutycycle(SEPA_FIN, 70) 
         self.pi.set_PWM_dutycycle(SEPA_RIN, 0)
         time.sleep(3)
         self.stop()
@@ -95,7 +95,7 @@ class Motor(object):
 
     def attach_para(self):
         self.pi.set_PWM_dutycycle(SEPA_FIN, 0) 
-        self.pi.set_PWM_dutycycle(SEPA_RIN, 50) 
+        self.pi.set_PWM_dutycycle(SEPA_RIN, 70) 
         print("parachute attached")
 
 if __name__ == '__main__':
