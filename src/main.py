@@ -222,12 +222,16 @@ def main(phase=1):
         cone_loc = "not found"
         print("phase : ", phase)
         not_found = 0
-        drive.slowly_stop()
+        # drive.slowly_stop()
+        drive.forward_slow()
         time.sleep(2)
+        drive.stop()
         while phase == 3 and not camera_error:
             if cone_loc != "not found":
-                drive.slowly_stop()
+                # drive.slowly_stop()
+                drive.forward_slow()
                 time.sleep(3)
+                drive.stop()
             gps = gnss.read_GPSData()
             try:
                 send_location.send_gps(gps, pi, handle)
