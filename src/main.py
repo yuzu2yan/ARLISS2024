@@ -268,11 +268,13 @@ def main(phase=1):
                 break
             elif cone_loc == "right":
                 not_found = 0
-                drive.turn_right()
+                # drive.turn_right()
+                drive.turn_right_slow()
                 time.sleep(0.5)
             elif cone_loc == "left":
                 not_found = 0
-                drive.turn_left()
+                # drive.turn_left()
+                drive.turn_left_slow()
                 time.sleep(0.5)
             elif cone_loc == "not found":
                 not_found += 1

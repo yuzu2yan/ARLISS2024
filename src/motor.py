@@ -2,10 +2,10 @@ import pigpio
 import time
 
 # pigpio library : https://abyz.me.uk/rpi/pigpio/python.html
-FRONT = [19, 27]  # Left, Right 30rpm 13, 27
-REAR = [13, 17]   # Left, Right 30rpm 19, 17
-SEPA_FIN = 9 # 30rpm 10
-SEPA_RIN = 10 # 30rpm 9
+FRONT = [9, 27]  # Left, Right 30rpm 13, 27
+REAR = [10, 17]   # Left, Right 30rpm 19, 17
+SEPA_FIN = 13 # 30rpm 10
+SEPA_RIN = 19 # 30rpm 9
 PINS = FRONT + REAR + [SEPA_FIN, SEPA_RIN]
 
 class Motor(object):
@@ -112,7 +112,9 @@ if __name__ == '__main__':
         'stuck': drive.stuck,
         'sl': drive.slowly_stop,
         'th': drive.turn_here,
-        'fs': drive.forward_slow
+        'fs': drive.forward_slow,
+        'tr': drive.turn_right_slow,
+        'tl': drive.turn_left_slow
     }
     while True:
         c = input('Enter char : ')
