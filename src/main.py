@@ -122,8 +122,8 @@ def main(phase=1):
                 send_location.send_gps(gps, pi, handle)
             except Exception as e:
                 print("Error : ", e)
-                pi.i2c_close(handle)
-                handle = pi.i2c_open(1, 0x30)
+                # pi.i2c_close(handle)
+                # handle = pi.i2c_open(1, 0x30)
             data = floating.cal_altitude(init_altitude)
             altitude = data[2]
             floating_log.floating_logger(data)
@@ -162,8 +162,8 @@ def main(phase=1):
                 send_location.send_gps(gps, pi, handle)
             except Exception as e:
                 print("Error : ", e)
-                pi.i2c_close(handle)
-                handle = pi.i2c_open(1, 0x30)
+            #     pi.i2c_close(handle)
+            #     handle = pi.i2c_open(1, 0x30)
             pre_gps = gps
             data = ground.is_heading_goal(gps, des)
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
@@ -195,8 +195,8 @@ def main(phase=1):
                     send_location.send_gps(gps, pi, handle)
                 except Exception as e:
                     print("Error : ", e)
-                    pi.i2c_close(handle)
-                    handle = pi.i2c_open(1, 0x30)
+                    # pi.i2c_close(handle)
+                    # handle = pi.i2c_open(1, 0x30)
                 # The value used to check if the rover is heading towards the goal
                 distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
                 print("distance : ", distance)
@@ -233,12 +233,12 @@ def main(phase=1):
                 time.sleep(3)
                 drive.stop()
             gps = gnss.read_GPSData()
-            try:
-                send_location.send_gps(gps, pi, handle)
-                pi.i2c_close(handle)
-                handle = pi.i2c_open(1, 0x30)
-            except Exception as e:
-                print("Error : ", e)
+            # try:
+            #     send_location.send_gps(gps, pi, handle)
+            #     pi.i2c_close(handle)
+            #     handle = pi.i2c_open(1, 0x30)
+            # except Exception as e:
+            #     print("Error : ", e)
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
             print("distance : ", distance)
             if distance >= settings['threshold']['far_from_goal_distance']:
@@ -270,17 +270,19 @@ def main(phase=1):
                 not_found = 0
                 drive.turn_right()
                 # drive.turn_right_slow()
-                time.sleep(0.5)
+                time.sleep(1.5)
             elif cone_loc == "left":
                 not_found = 0
                 drive.turn_left()
                 # drive.turn_left_slow()
-                time.sleep(0.5)
+                time.sleep(1.5)
             elif cone_loc == "not found":
                 not_found += 1
                 if not_found >= settings['threshold']['cone_not_found']:
                     print('Cone not found')
                     img_proc_log.not_found_logger(distance)
+                    drive.forward()
+                    time.sleep(3)
                     drive.stop()
                     phase = 2
                     break

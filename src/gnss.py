@@ -24,7 +24,7 @@ gpsthread.start()
 
 def read_GPSData():
     if gps.clean_sentences > 20: # Output when proper data accumulates to some extent
-        gps_data = [gps.longitude[0], gps.latitude[0]]
+        gps_data = [-gps.longitude[0], gps.latitude[0]]
         return gps_data
     else:
         return [0, 0]
