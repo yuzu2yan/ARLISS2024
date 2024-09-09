@@ -104,9 +104,6 @@ def main(phase=1):
         print("Rising phase")
     while phase == 1:
         while state == 'Rising':
-            # gps = gnss.read_GPSData()
-            # send_location.send_gps(gps)
-            
             data = floating.cal_altitude(init_altitude)
             altitude = data[2]
             floating_log.floating_logger(data)
@@ -122,8 +119,10 @@ def main(phase=1):
                 send_location.send_gps(gps, pi, handle)
             except Exception as e:
                 print("Error : ", e)
-                # pi.i2c_close(handle)
-                # handle = pi.i2c_open(1, 0x30)
+                try:
+                    handle = pi.i2c_open(1, 0x30)
+                except Exception as e:
+                    print("Error : ", e)
             data = floating.cal_altitude(init_altitude)
             altitude = data[2]
             floating_log.floating_logger(data)
@@ -162,8 +161,10 @@ def main(phase=1):
                 send_location.send_gps(gps, pi, handle)
             except Exception as e:
                 print("Error : ", e)
-            #     pi.i2c_close(handle)
-            #     handle = pi.i2c_open(1, 0x30)
+                try:
+                    handle = pi.i2c_open(1, 0x30)
+                except Exception as e:
+                    print("Error : ", e)
             pre_gps = gps
             data = ground.is_heading_goal(gps, des)
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
@@ -195,8 +196,10 @@ def main(phase=1):
                     send_location.send_gps(gps, pi, handle)
                 except Exception as e:
                     print("Error : ", e)
-                    # pi.i2c_close(handle)
-                    # handle = pi.i2c_open(1, 0x30)
+                    try:
+                        handle = pi.i2c_open(1, 0x30)
+                    except Exception as e:
+                        print("Error : ", e)
                 # The value used to check if the rover is heading towards the goal
                 distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
                 print("distance : ", distance)
@@ -233,12 +236,6 @@ def main(phase=1):
                 time.sleep(6)
                 drive.stop()
             gps = gnss.read_GPSData()
-            # try:
-            #     send_location.send_gps(gps, pi, handle)
-            #     pi.i2c_close(handle)
-            #     handle = pi.i2c_open(1, 0x30)
-            # except Exception as e:
-            #     print("Error : ", e)
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
             print("distance : ", distance)
             if distance >= settings['threshold']['far_from_goal_distance']:
