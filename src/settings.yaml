@@ -4,8 +4,8 @@ destination:
 threshold:
   # floating
   rised_altitude: 100 #[m]
-  landed_altitude: 20 #[m]
-  wait_time: 18 #[s]
+  landed_altitude: 10 #[m]
+  wait_time: 8 #[s]
 
   # ground
   close_to_goal_distance: 8 #[m]
