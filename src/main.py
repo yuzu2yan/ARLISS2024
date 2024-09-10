@@ -267,12 +267,12 @@ def main(phase=1):
                 not_found = 0
                 drive.turn_right()
                 # drive.turn_right_slow()
-                time.sleep(1.5)
+                time.sleep(0.7)
             elif cone_loc == "left":
                 not_found = 0
                 drive.turn_left()
                 # drive.turn_left_slow()
-                time.sleep(1.5)
+                time.sleep(0.7)
             elif cone_loc == "not found":
                 not_found += 1
                 if not_found >= settings['threshold']['cone_not_found']:

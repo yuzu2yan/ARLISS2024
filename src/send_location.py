@@ -7,6 +7,7 @@ def send_gps(gps, pi, handle):
         pi.i2c_write_device(handle, str(gps[0]))
         pi.i2c_write_device(handle, str(gps[1]))
         # time.sleep(1)
+        print('send_gps')
     except Exception as e:
         pi.i2c_close(handle)
         # pi.stop()        
