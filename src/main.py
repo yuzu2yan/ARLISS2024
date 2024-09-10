@@ -102,11 +102,15 @@ def main(phase=1):
         print("initial altitude : {}." .format(init_altitude))
         floating_log.floating_logger(data)
         print("Rising phase")
+        altitude = init_altitude
     while phase == 1:
         while state == 'Rising':
-            data = floating.cal_altitude(init_altitude)
-            altitude = data[2]
-            floating_log.floating_logger(data)
+            try:
+                data = floating.cal_altitude(init_altitude)
+                altitude = data[2]
+                floating_log.floating_logger(data)
+            except Exception as e:
+                print("Error : ", e)
             print("Rising")
             if altitude >= settings['threshold']['rised_altitude']:
                 state = 'Ascent Completed'
@@ -123,9 +127,12 @@ def main(phase=1):
                     handle = pi.i2c_open(1, 0x30)
                 except Exception as e:
                     print("Error : ", e)
-            data = floating.cal_altitude(init_altitude)
-            altitude = data[2]
-            floating_log.floating_logger(data)
+            try:
+                data = floating.cal_altitude(init_altitude)
+                altitude = data[2]
+                floating_log.floating_logger(data)
+            except Exception as e:
+                print("Error : ", e)
             print("Falling")
             if altitude <= settings['threshold']['landed_altitude']:
                 state = 'Landing'
@@ -189,7 +196,7 @@ def main(phase=1):
                     drive.turn_right()
                 elif data[4] == 'Turn Left':
                     drive.turn_left()
-                time.sleep(1) # rpm 100 0.5 30 1
+                time.sleep(0.5) # rpm 100 0.5 30 1
                 drive.forward()
                 gps = gnss.read_GPSData()
                 try:
@@ -225,15 +232,15 @@ def main(phase=1):
         cone_loc = "not found"
         print("phase : ", phase)
         not_found = 0
-        drive.slowly_stop()
-        # drive.forward_slow()
-        time.sleep(6)
+        # drive.slowly_stop()
+        drive.forward_slow()
+        time.sleep(3)
         drive.stop()
         while phase == 3 and not camera_error:
             if cone_loc != "not found":
-                drive.slowly_stop()
-                # drive.forward_slow()
-                time.sleep(6)
+                # drive.slowly_stop()
+                drive.forward_slow()
+                time.sleep(3)
                 drive.stop()
             gps = gnss.read_GPSData()
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
@@ -259,37 +266,38 @@ def main(phase=1):
                 phase = 4
                 reach_goal = True
                 img_proc_log.end_of_img_proc_phase()
-                drive.forward()
-                time.sleep(6) #30rpm 6 100rpm 3
+                # drive.forward()
+                drive.forward_slow()
+                time.sleep(3) #30rpm 6 100rpm 3
                 drive.stop()
                 break
             elif cone_loc == "right":
                 not_found = 0
                 drive.turn_right()
                 # drive.turn_right_slow()
-                time.sleep(0.7)
+                time.sleep(0.3)
             elif cone_loc == "left":
                 not_found = 0
                 drive.turn_left()
                 # drive.turn_left_slow()
-                time.sleep(0.7)
+                time.sleep(0.3)
             elif cone_loc == "not found":
                 not_found += 1
                 if not_found >= settings['threshold']['cone_not_found']:
                     print('Cone not found')
                     img_proc_log.not_found_logger(distance)
                     drive.forward()
-                    time.sleep(3)
+                    time.sleep(1.5)
                     drive.stop()
                     phase = 2
                     break
                 pre_ang = ground.cal_heading_ang()[0]
-                while (abs(pre_ang - ground.cal_heading_ang()[0]) < settings['threshold']['orientation_ang']):
-                    drive.turn_here()
-                    time.sleep(0.1)
+                # while (abs(pre_ang - ground.cal_heading_ang()[0]) < settings['threshold']['orientation_ang']):
+                #     drive.turn_here()
+                #     time.sleep(0.1)
                 # rpm 100
-                # drive.turn_here()
-                # time.sleep(0.5)
+                drive.turn_here()
+                time.sleep(0.25)
                 drive.stop()
             else: # front
                 not_found = 0

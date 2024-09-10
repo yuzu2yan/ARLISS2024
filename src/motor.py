@@ -2,10 +2,10 @@ import pigpio
 import time
 
 # pigpio library : https://abyz.me.uk/rpi/pigpio/python.html
-FRONT = [13, 27]  # Left, Right 30rpm 13, 27 100rpm 9, 19
-REAR = [19, 17]   # Left, Right 30rpm 19, 17 100rpm 10, 13
-SEPA_FIN = 10 # 30rpm 10 100rpm 27
-SEPA_RIN = 9 # 30rpm 9 100rpm 17
+FRONT = [19, 27]  # Left, Right 30rpm 13, 27 100rpm 9, 19
+REAR = [13, 17]   # Left, Right 30rpm 19, 17 100rpm 10, 13
+SEPA_FIN = 9 # 30rpm 10 100rpm 27
+SEPA_RIN = 10 # 30rpm 9 100rpm 17
 PINS = FRONT + REAR + [SEPA_FIN, SEPA_RIN]
 
 class Motor(object):
@@ -23,8 +23,8 @@ class Motor(object):
         print("forward")
         
     def forward_slow(self):
-        self.pi.set_PWM_dutycycle(FRONT[1], 50)
-        self.pi.set_PWM_dutycycle(FRONT[0], 8)
+        self.pi.set_PWM_dutycycle(FRONT[1], 30)
+        self.pi.set_PWM_dutycycle(FRONT[0], 30)
         [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
 
     def back(self):
@@ -45,7 +45,7 @@ class Motor(object):
 
     def turn_right(self):
         self.pi.set_PWM_dutycycle(FRONT[1], 100)  # Left
-        self.pi.set_PWM_dutycycle(FRONT[0],10)   # Right 25 80
+        self.pi.set_PWM_dutycycle(FRONT[0],50)   # Right 25 80
         [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
         print("turn right")
         
@@ -55,7 +55,7 @@ class Motor(object):
         [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
 
     def turn_left(self):
-        self.pi.set_PWM_dutycycle(FRONT[1], 10)  # Left # 25 90
+        self.pi.set_PWM_dutycycle(FRONT[1], 50)  # Left # 25 90
         self.pi.set_PWM_dutycycle(FRONT[0], 100) # Right
         [self.pi.set_PWM_dutycycle(pin, 0) for pin in REAR]
         print("turn left")
@@ -67,10 +67,10 @@ class Motor(object):
 
     def turn_here(self):
         # 30rpm
-        self.pi.set_PWM_dutycycle(FRONT[1], 15)  # Left 35
+        self.pi.set_PWM_dutycycle(FRONT[1],30)  # Left 35
         self.pi.set_PWM_dutycycle(FRONT[0], 0)   # Right
         self.pi.set_PWM_dutycycle(REAR[1], 0)    # Left
-        self.pi.set_PWM_dutycycle(REAR[0], 15)   # Right
+        self.pi.set_PWM_dutycycle(REAR[0], 30)   # Right
         
         # # 100rpm
         # self.pi.set_PWM_dutycycle(FRONT[1], 0)  # Left 35

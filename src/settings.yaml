@@ -1,11 +1,13 @@
 destination:
-  longitude: -119.11963666666666
-  latitude: 40.88370833333333
+  # longitude: -119.11963666666666
+  # latitude: 40.88370833333333
+  longitude: -119.10528333333333
+  latitude: 40.87018833333333
 threshold:
   # floating
-  rised_altitude: 100 #[m]
-  landed_altitude: 10 #[m]
-  wait_time: 8 #[s]
+  rised_altitude: 300 #[m]
+  landed_altitude: 50 #[m]
+  wait_time: 45 #[s]
 
   # ground
   close_to_goal_distance: 8 #[m]
@@ -17,6 +19,6 @@ threshold:
   far_from_goal_distance: 20 # [m]
   cone_percent: 40 # [%]
   red_cone_percent: 30 # [%]
-  cone_not_found: 10 # the number of frames to consider the cone is not found
+  cone_not_found: 20 # the number of frames to consider the cone is not found
   orientation_ang: 30 # the adjustment angle of the robot to find the cone
 
