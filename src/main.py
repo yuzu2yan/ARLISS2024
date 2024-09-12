@@ -242,6 +242,7 @@ def main(phase=1):
                 drive.forward_slow()
                 time.sleep(3)
                 drive.stop()
+                time.sleep(1)
             gps = gnss.read_GPSData()
             distance = ground.cal_distance(gps[0], gps[1], des[0], des[1])
             print("distance : ", distance)

@@ -62,8 +62,8 @@ def detect_cone(picam2, model, directory_path="./"):
     else:
         loc = "center"
     now = datetime.datetime.now()
-    annotated_file_name = directory_path + '/' + now.strftime('%Y%m%d %H:%M:%S') + "_annotated.jpg"
-    cv2.imwrite(annotated_file_name, annotated_frame)
+    # annotated_file_name = directory_path + '/' + now.strftime('%Y%m%d %H:%M:%S') + "_annotated.jpg"
+    # cv2.imwrite(annotated_file_name, annotated_frame)
     return percent, red_cone_percent, loc, original_file_name, annotated_file_name
 
 
@@ -75,25 +75,25 @@ if __name__ == '__main__':
     picam2.configure(config)
     picam2.start()  
     
-    drive = motor.Motor()
+    # drive = motor.Motor()
     while True:
         percent, red_cone_percent, loc, original_file_name, annotated_file_name = detect_cone(picam2, model)
         print("percent:", percent, "location:", loc)
         # Goal judgment
-        if red_cone_percent > 50 and loc != "not found":
+        if red_cone_percent > 50 and loc != "not found" and percent > 50:
             print("Reach the goal")
-            drive.forward()
-            time.sleep(2.0)
-            drive.stop()
+            # drive.forward()
+            # time.sleep(2.0)
+            # drive.stop()
             break
-        if loc == "right":
-            drive.turn_right()
-            time.sleep(0.3)
-        elif loc == "left":
-            drive.turn_left()
-            time.sleep(0.3)
-        elif loc == "not found":
-            drive.forward()
+        # if loc == "right":
+            # drive.turn_right()
+            # time.sleep(0.3)
+        # elif loc == "left":
+            # drive.turn_left()
+            # time.sleep(0.3)
+        # elif loc == "not found":
+            # drive.forward()
 
     picam2.stop()   
     # cv2.destroyAllWindows()
