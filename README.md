@@ -46,7 +46,8 @@ The CanSat is stowed in the rocket and launched. After being released from the r
 
 <img width="279" alt="clahe" src="https://github.com/user-attachments/assets/a34fa9ff-740e-4702-8a96-9879148bd8ee">
 
-- Model: YOLOv8​→Enable fast and accurate detection with limited resources​
+- Model: [YOLOv8​](https://github.com/ultralytics/ultralytics)  
+Enable fast and accurate detection with limited resources​
 
 <img width="172" alt="yolo" src="https://github.com/user-attachments/assets/a18d0199-2c9a-4370-b878-715831afd9c0">
 
@@ -78,7 +79,7 @@ Communicator               : IM920sL
 - floating.py  
     Used to calculate altitude; obtains air pressure and temperature from the BME280 module and calculates the altitude relative to the initial altitude.
 - ground.py  
-    This program is used in the ground phase. It calculates the distance and angle to the goal based on geomagnetic and GPS information, and determines the control.
+    This program is used in the ground phase. It calculates the distance and angle to the goal based on geomagnetic and GNSS information, and determines the control.
 - bme280.py  
     Obtain air pressure and temperature data using BME280.
 - gnss.py  
@@ -86,17 +87,24 @@ Communicator               : IM920sL
 - bno055.py  
     Obtain barometric pressure and acceleration data from BNO055. Each value is automatically calibrated by the built-in microcomputer, and the degree of calibration can be checked.
 - cone_detection.py    
-    It is an image processing module that takes a picture and detects red pylons in real time from the image.
-- chat.py  
-    Interact with the arm via ROS topic communication.
+    It is an image processing module that takes a picture and detects red pylons from the image.
+- send_location.py  
+    Send location via Arduino Nano Every.
 - motor.py  
-    This class deals with motors, controlling tires and deployment motors.
+    This class deals with motors, controlling tires and deployment motors.  
+- Arduino/down_link.cpp
+    Send location with IM920sL module from Arduino.
 
 ## Result
-The truck happened to land at the sample collection point, and the arm also collected the sample and even approached the truck.
+### Day1
+An error in the barometric pressure sensor caused the program to stop before launch. After landing, it became inoperable. After this launch, countermeasures were taken against the barometric sensor error.  
 
+### Day2
+The parachute connection was damaged and the CanSat fell freely from an altitude of 3,000 meters. The fuselage was damaged, making it impossible to move.
 
-However, the vibration of the movement during loading caused the sample to drop, and the mission was retired. The truck also failed to make a soft landing, damaging a tire upon landing.
+### Day3
+The impact of the landing caused Raspberry Pi to restart, making it impossible to control.
+
 
 
 **This mission won third place in the Tanegashima Rocket Contest2024!!**
