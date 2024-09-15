@@ -104,7 +104,3 @@ The parachute connection was damaged and the CanSat fell freely from an altitude
 
 ### Day3
 The impact of the landing caused Raspberry Pi to restart, making it impossible to control.
-
-
-
-**This mission won third place in the Tanegashima Rocket Contest2024!!**
