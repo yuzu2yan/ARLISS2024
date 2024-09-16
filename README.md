@@ -2,7 +2,7 @@
 ![release_date](https://img.shields.io/badge/release_date-Sep_2024-yellow)
 [![python](https://img.shields.io/badge/python-v3.9.2-blue)](https://www.python.org/downloads/release/python-392/)
 [![openCV](https://img.shields.io/badge/OpenCV-v4.7.0-blue)](https://docs.opencv.org/4.7.0/)
-[![openCV](https://img.shields.io/badge/YOLO-v8-blue)]([https://docs.opencv.org/4.7.0/](https://github.com/ultralytics/ultralytics))  
+[![YOLOv8](https://img.shields.io/badge/YOLO-v8-blue)](https://github.com/ultralytics/ultralytics) 
 [![python](https://img.shields.io/badge/-Python-F9DC3E.svg?logo=python&style=flat)](https://www.python.org/)
 [![linux](https://img.shields.io/badge/-Linux-6C6694.svg?logo=linux&style=flat)](https://www.linux.org/)
 [![raspberrypi](https://img.shields.io/badge/-Raspberry%20Pi-C51A4A.svg?logo=raspberry-pi&style=flat)](https://www.raspberrypi.com/)
