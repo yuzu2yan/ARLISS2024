@@ -99,8 +99,12 @@ Communicator               : IM920sL
 ### Day1
 An error in the barometric pressure sensor caused the program to stop before launch. After landing, it became inoperable. After this launch, countermeasures were taken against the barometric sensor error.  
 
+<img width="302" alt="Launch a rocket" src="https://github.com/user-attachments/assets/f38d0899-048c-4456-b31a-148e53729800">
+
 ### Day2
 The parachute connection was damaged and the CanSat fell freely from an altitude of 3,000 meters. The fuselage was damaged, making it impossible to move.
+
+<img width="300" alt="para" src="https://github.com/user-attachments/assets/aa1758af-caff-426c-b620-66c83070ab09">
 
 ### Day3
 The impact of the landing caused Raspberry Pi to restart, making it impossible to control.
