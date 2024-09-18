@@ -92,7 +92,7 @@ Communicator               : IM920sL
     Send location via Arduino Nano Every.
 - motor.py  
     This class deals with motors, controlling tires and deployment motors.  
-- Arduino/down_link.cpp
+- Arduino/down_link.cpp  
     Send location with IM920sL module from Arduino.
 
 ## Result
