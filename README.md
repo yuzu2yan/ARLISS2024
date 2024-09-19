@@ -108,3 +108,6 @@ The parachute connection was damaged and the CanSat fell freely from an altitude
 
 ### Day3
 The impact of the landing caused Raspberry Pi to restart, making it impossible to control.
+
+<img width="300" alt="CanSat" src="https://github.com/user-attachments/assets/8c31caa0-d1d8-4015-b16c-3d02dd802c0e">
+
