@@ -53,9 +53,11 @@ Enable fast and accurate detection with limited resources​
 
 
 ## Software Configuration
-Language : Python 3.9.2  
-OS       : Ubuntu 22.04   
-OpenCV   : Ver.4.7.0 
+Language : Python 3.9.2    
+OS : Raspberry Pi OS (64-bit)  
+Raspbian GNU/Linux 11 (bullseye)  
+Kernel : Ver.5.15  
+OpenCV   : Ver.4.7.0  
 
 ## Hardware Configuration
 
